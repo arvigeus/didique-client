@@ -1,0 +1,43 @@
+.paper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 300px;
+  box-sizing: border-box;
+  padding: 20px 40px;
+  margin: 20px;
+  font-size: 21px;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  border: 1px solid #bbb;
+  background-color: #eee;
+
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.paper::before,
+.paper::after {
+  position: absolute;
+  width: 99%;
+  height: 95%;
+  max-height: 600px;
+  content: "";
+}
+
+.paper::before {
+  z-index: -1;
+  top: 0;
+  right: 15px;
+  transform: rotate(-1deg);
+}
+
+.paper::after {
+  z-index: -2;
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+}
