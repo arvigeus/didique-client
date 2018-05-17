@@ -1,0 +1,42 @@
+.video {
+  position: relative;
+  height: 0;
+  padding-top: 25px;
+  padding-bottom: 56.25%; /* 16:9 */
+  background-color: #333;
+}
+
+.video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 99%;
+  height: 98%;
+  box-sizing: border-box;
+  margin: 0.5%;
+}
+
+.video::before {
+  left: -20px;
+  background: linear-gradient(top, #333 10px, rgba(0, 0, 0, 0) 10px),
+    linear-gradient(left, #333 10px, rgba(0, 0, 0, 0) 10px);
+}
+
+.video::after {
+  right: -20px;
+  background: linear-gradient(top, #333 10px, rgba(0, 0, 0, 0) 10px),
+    linear-gradient(right, #333 10px, rgba(0, 0, 0, 0) 10px);
+}
+
+/* This must be after .video:before and .video:after in order to apply background properties */
+.video::before,
+.video::after {
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 20px;
+  height: 100%;
+  background-repeat: repeat-y;
+  background-size: 100% 20px;
+  content: "";
+}

@@ -1,0 +1,168 @@
+.picture {
+  position: relative;
+  display: block;
+}
+
+.polarized {
+  width: auto;
+  flex-direction: column;
+  padding: 10px 10px 0;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.6), inset 0 -5px 50px rgba(0, 0, 0, 0.4);
+  color: #333;
+  text-align: center;
+  text-decoration: none;
+}
+
+.polarized::after {
+  display: block;
+  min-height: 10px;
+  content: attr(title);
+  font-family: var(--font-handwriting);
+}
+
+.photo {
+  position: relative;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.photo::before {
+  display: block;
+  width: 100%;
+  padding-top: 129%;
+  content: "";
+}
+
+.photo > picture {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  -webkit-backface-visibility: hidden;
+}
+
+.photo > picture > img {
+  max-width: none;
+  min-height: 100%;
+  flex: 1 1 100%;
+}
+
+.portrait .photo::before {
+  padding-top: 110%;
+}
+
+.portrait > picture > img {
+  max-width: none;
+  min-height: auto;
+  max-height: 100%;
+}
+
+.paperclip-top,
+.paperclip-bottom::before,
+.paperclip-bottom::after {
+  border-color: #ccc;
+  border-style: groove;
+}
+
+.paperclip-top {
+  width: 20px;
+  height: 15px;
+  margin: -45px 0 25px 95px;
+  border-radius: 20px 20px 0 0;
+  border-width: 3px 3px 0;
+  transform: rotate(-20deg);
+}
+
+.paperclip-bottom {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 0;
+  transform: rotate(-20deg);
+}
+
+.paperclip-bottom::before,
+.paperclip-bottom::after {
+  position: absolute;
+  z-index: 1;
+  left: 103px;
+  height: 70px;
+  content: "";
+}
+
+.paperclip-bottom::before {
+  width: 20px;
+  border-width: 0 3px 0 0;
+}
+
+.paperclip-bottom::after {
+  top: 14px;
+  width: 17px;
+  border-radius: 0 0 20px 20px;
+  border-width: 0 3px 3px;
+}
+
+.pin {
+  position: absolute;
+  z-index: 1001;
+  top: -25px;
+  left: 50%;
+  display: block;
+  width: 2px;
+  height: 32px;
+  background-color: #aaa;
+}
+
+.pin::after {
+  position: absolute;
+  top: -10px;
+  left: -5px;
+  width: 12px;
+  height: 12px;
+  background-color: #a31;
+  background-image: radial-gradient(
+    25% 25%,
+    circle,
+    hsla(0, 0%, 100%, 0.3),
+    hsla(0, 0%, 0%, 0.3)
+  );
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px hsla(0, 0%, 0%, 0.1),
+    inset 3px 3px 3px hsla(0, 0%, 100%, 0.2),
+    inset -3px -3px 3px hsla(0, 0%, 0%, 0.2),
+    23px 20px 3px hsla(0, 0%, 0%, 0.15);
+  content: "";
+}
+
+.pin::before {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 2px;
+  height: 24px;
+  background-color: hsla(0, 0%, 0%, 0.1);
+  box-shadow: 0 0 0.25em hsla(0, 0%, 0%, 0.1);
+  content: "";
+  transform: rotate(57.5deg);
+  transform-origin: 50% 100%;
+}
+
+.tape {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: -35px;
+  display: block;
+  width: 150px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  content: " ";
+  transform: rotate(35deg);
+}

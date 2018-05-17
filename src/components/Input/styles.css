@@ -1,0 +1,353 @@
+:root {
+  --input-field-border-color: #888;
+  --input-field-active-border-color: #3f51b5;
+  --input-color: #444;
+  --input-active-color: #f1ede1;
+  --input-radio-unchecked-color: #888;
+  --input-label-color: #888;
+  --input-label-active-color: #3f51b5;
+}
+
+.field,
+.datetime,
+.select,
+.radio,
+.checkbox {
+  position: relative;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.field,
+.datetime,
+.select {
+  display: inline-flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.field input,
+.field textarea,
+.select select,
+.datetime input {
+  display: block;
+  width: 100%;
+  order: 2;
+  background: none;
+  border-color: var(--input-field-border-color);
+  border-radius: 0;
+  border-width: 0 0 1px;
+  color: var(--text-color);
+  font-family: var(--font-handwriting);
+  font-size: 20px;
+  line-height: 26px;
+  outline: none;
+}
+
+.field input:invalid,
+.field textarea:invalid,
+.select select:invalid,
+.datetime input:invalid {
+  border-color: #a88;
+  box-shadow: none;
+}
+
+.checkbox::after {
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  left: 7px;
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--input-color);
+  border-radius: 4px;
+  content: "";
+}
+
+.checkbox input,
+.radio input {
+  display: none;
+}
+
+.checkbox label,
+.radio label {
+  position: relative;
+  z-index: 2;
+  display: block;
+  padding: 5px 5px 5px 40px;
+  color: var(--inpu-color);
+  cursor: pointer;
+  line-height: 25px;
+}
+
+.checkbox.inline label,
+.radio.inline label {
+  display: inline-flex;
+}
+
+.radio label::before {
+  position: absolute;
+  z-index: 1;
+  top: 5px;
+  left: 7px;
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  border: 2px solid var(--input-color);
+  border-radius: 50%;
+  content: "";
+  transition: border-width 0.2s ease-in;
+}
+
+.checkbox label::before,
+.checkbox label::after {
+  position: absolute;
+  top: 0;
+  left: 11px;
+  width: 2px;
+  height: 0;
+  background: var(--input-color);
+  content: "";
+  transition: height 0.2s linear;
+}
+
+.radio input:checked + label::before {
+  border-width: 12px;
+}
+
+.checkbox label::before {
+  transform: rotate(45deg);
+  transform-origin: -1px 21px;
+}
+
+.checkbox label::after {
+  transform: rotate(-45deg);
+  transform-origin: 8px 10px;
+  transition-delay: 0.25s;
+}
+
+.checkbox input:checked + label::before {
+  height: 28px;
+  transition-delay: 0.25s;
+}
+
+.checkbox input:checked + label::after {
+  height: 28px;
+  transition-delay: 0s;
+}
+
+.checkbox input:checked + label,
+.radio input:checked + label {
+  color: var(--input-radio-checked-color);
+}
+
+.toggle input {
+  display: none;
+}
+
+.toggle input,
+.toggle input::after,
+.toggle input::before,
+.toggle label,
+.toggle label::after,
+.toggle label::before {
+  box-sizing: border-box;
+}
+
+.toggle span,
+.toggle label {
+  display: inline-block;
+  line-height: 30px;
+}
+
+.toggle label {
+  position: relative;
+  overflow: hidden;
+  width: 60px;
+  height: 30px;
+  backface-visibility: hidden;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  cursor: pointer;
+  font-family: var(--font-handwriting);
+  outline: 0;
+  transition: all 0.2s ease;
+  user-select: none;
+  vertical-align: text-bottom;
+}
+
+.toggle label::after,
+.toggle label::before {
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.toggle label::after {
+  left: 100%;
+  content: attr(data-on);
+}
+
+.toggle label::before {
+  left: 0;
+  content: attr(data-off);
+}
+
+.toggle input:checked + label::before {
+  left: -100%;
+}
+
+.toggle input:checked + label::after {
+  left: 0;
+}
+
+.field input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 50px var(--input-active-color) inset;
+  -webkit-text-fill-color: var(--input-color);
+}
+
+.field textarea {
+  resize: none;
+}
+
+.field label,
+.radio-label,
+.select label,
+.datetime label {
+  z-index: 1;
+  order: 1;
+  padding-left: 2px;
+  color: var(--input-label-color);
+  font-size: 18px;
+  pointer-events: none;
+  transform-origin: left top;
+}
+
+.field label,
+.select label {
+  transform: translate3d(0, 24px, 0) scale(1);
+  transition: transform ease-out 0.25s;
+}
+
+.field input:focus,
+.field textarea:focus,
+.datetime input:focus {
+  border-color: var(--input-field-active-border-color);
+}
+
+.select.has-value label,
+.field.has-focus > label,
+.field.has-value > label,
+.datetime > label {
+  transform: translate3d(0, 6px, 0) scale(0.8);
+}
+
+.field.has-focus label,
+.datetime.has-focus label {
+  color: var(--input-label-active-color);
+}
+
+.select select,
+.field input {
+  width: 100%;
+}
+
+.select select {
+  height: 29px;
+}
+
+.select select optgroup,
+.select select option {
+  overflow: hidden;
+  background-color: #eee;
+}
+
+.select select:-moz-focusing {
+  color: transparent;
+  text-shadow: 0 0 0 var(--input-color);
+}
+
+.control .error,
+.control .warning {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 6px;
+  display: block;
+  background-color: var(--input-active-color);
+  font-size: small;
+  font-style: italic;
+}
+
+.control .error,
+.control .error::before {
+  color: #c11;
+}
+
+.control .error::before {
+  content: "[x] ";
+}
+
+.control .warning,
+.control .warning::before {
+  color: #b91;
+}
+
+.control .warning::before {
+  content: "[*] ";
+}
+
+input[type="submit"],
+input[type="button"],
+button,
+a.button {
+  display: inline-block;
+  box-sizing: border-box;
+  align-self: center;
+  padding: 16px;
+  border: solid 2px var(--input-color);
+  margin: 5px 10px;
+  background: transparent;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  color: var(--input-color);
+  font-family: var(--font-interface);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color ease 0.3s;
+}
+
+input[type="submit"]:focus,
+input[type="button"]:focus,
+button:focus,
+a.button:focus {
+  background-color: #bbb;
+  border-color: #bbb;
+}
+
+input[type="submit"].active,
+button.active,
+a.button.active,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover,
+a.button:hover {
+  background-color: #666;
+  border-color: #666;
+  color: var(--input-active-color) !important;
+  cursor: pointer;
+}
+
+input[type="submit"].active,
+button.active,
+a.button.active {
+  background-color: var(--input-color);
+  border-color: var(--input-color);
+  color: var(--input-active-color) !important;
+  cursor: default;
+}

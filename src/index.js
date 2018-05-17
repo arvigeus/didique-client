@@ -2,18 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import "./index.css";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
+import "./index.css";
+import "components/Input/styles.css";
 
-// Pass your GraphQL endpoint to uri
 const client = new ApolloClient({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`
 });
 
 const ApolloApp = AppComponent => (
   <ApolloProvider client={client}>
-    <AppComponent />
+    <BrowserRouter>
+      <AppComponent />
+    </BrowserRouter>
   </ApolloProvider>
 );
 
