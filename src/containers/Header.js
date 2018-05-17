@@ -20,6 +20,9 @@ const Header = () => (
         Sign In
       </NavLink>
     )}
+    <NavLink to="/contact-us" activeClassName={styles.selected}>
+      Contact Us
+    </NavLink>
   </header>
 );
 export default Header;

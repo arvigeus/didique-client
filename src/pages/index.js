@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import isAuthenticated from "../lib/isAuthenticated";
 import About from "./About";
+import ContactUs from "./ContactUs";
 import Friend from "./Friend";
 import Home from "./Home";
 import SignIn from "./SignIn";
@@ -43,6 +44,7 @@ export default () => (
       component={RedirectHome}
       fallback={SignIn}
     />
+    <Route path="/contact-us" exact render={ContactUs} />
     <PrivateRoute
       path="/friend/:id"
       component={Friend}
