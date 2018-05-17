@@ -14,7 +14,7 @@ const PrivateRoute = ({
   <Route
     {...rest}
     render={props =>
-      !isAuthenticated() ? <Component {...props} /> : <Fallback {...props} />
+      isAuthenticated() ? <Component {...props} /> : <Fallback {...props} />
     }
   />
 );
