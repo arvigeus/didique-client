@@ -3,5 +3,8 @@
   "editor.formatOnSave": true,
   "prettier.eslintIntegration": true,
   "prettier.stylelintIntegration": true,
-  "flow.useNPMPackagedFlow": true
+  "flow.useNPMPackagedFlow": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  }
 }

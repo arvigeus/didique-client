@@ -1,6 +1,6 @@
 // @flow
-import React, { Fragment } from "react";
 import cx from "classnames";
+import React, { Fragment } from "react";
 
 type RadioGroupPropsType = {
   className?: string,

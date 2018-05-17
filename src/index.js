@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
-import { BrowserRouter } from "react-router-dom";
-import App from "containers/App";
-import registerServiceWorker from "./registerServiceWorker";
-import "./index.css";
 import "components/Input/styles.css";
+import App from "containers/App";
+import React from "react";
+import { ApolloProvider } from "react-apollo";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import registerServiceWorker from "./registerServiceWorker";
 
 const client = new ApolloClient({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`

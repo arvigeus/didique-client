@@ -1,6 +1,6 @@
 // @flow
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
 type CheckboxPropsType = {
   id: string,

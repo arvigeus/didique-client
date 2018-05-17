@@ -1,6 +1,6 @@
+import isAuthenticated from "lib/isAuthenticated";
 import React, { Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
-import isAuthenticated from "lib/isAuthenticated";
 import styles from "./Header.module.css";
 
 const Header = () => (

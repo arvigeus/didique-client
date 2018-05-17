@@ -1,6 +1,6 @@
 // @flow
-import React, { PureComponent } from "react";
 import cx from "classnames";
+import React, { PureComponent } from "react";
 
 type DateTimePropsType = {
   id: string,
