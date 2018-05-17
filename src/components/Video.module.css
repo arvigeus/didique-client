@@ -18,14 +18,14 @@
 
 .video::before {
   left: -20px;
-  background: linear-gradient(top, #333 10px, rgba(0, 0, 0, 0) 10px),
-    linear-gradient(left, #333 10px, rgba(0, 0, 0, 0) 10px);
+  background: linear-gradient(to bottom, #333 10px, rgba(0, 0, 0, 0) 10px),
+    linear-gradient(to right, #333 10px, rgba(0, 0, 0, 0) 10px);
 }
 
 .video::after {
   right: -20px;
-  background: linear-gradient(top, #333 10px, rgba(0, 0, 0, 0) 10px),
-    linear-gradient(right, #333 10px, rgba(0, 0, 0, 0) 10px);
+  background: linear-gradient(to bottom, #333 10px, rgba(0, 0, 0, 0) 10px),
+    linear-gradient(to left, #333 10px, rgba(0, 0, 0, 0) 10px);
 }
 
 /* This must be after .video:before and .video:after in order to apply background properties */
