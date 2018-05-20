@@ -1,7 +1,7 @@
 // @flow
-import React, { Fragment } from "react";
+import React from "react";
 
-type HandwritingType = {
+type HandwritingPropsType = {
   children: string,
   color: string,
   fontFamily: string,
@@ -11,7 +11,16 @@ type HandwritingType = {
   fill: boolean
 };
 
-class Handwriting extends React.Component<HandwritingType> {
+type HandwritingStateType = {
+  preview: boolean,
+  clientWidth: number,
+  clientHeight: number
+};
+
+class Handwriting extends React.Component<
+  HandwritingPropsType,
+  HandwritingStateType
+> {
   static defaultProps = {
     color: "#495057", // var(--text-color)
     fontFamily: "Kurale, sans-serif", // var(--font-interface)
@@ -21,14 +30,28 @@ class Handwriting extends React.Component<HandwritingType> {
     fill: true
   };
 
-  componentDidMount() {
-    const { fontSize, fontFamily, color } = this.props;
-    const { text, canvas } = this.refs;
-    const { clientWidth, clientHeight } = text;
+  state = {
+    preview: true,
+    clientWidth: 0,
+    clientHeight: 0
+  };
 
-    canvas.width = clientWidth;
-    canvas.height = clientHeight;
-    text.parentNode.removeChild(text);
+  componentDidMount() {
+    const { text } = this.refs;
+    this.setState({
+      preview: false,
+      clientWidth: text.clientWidth * 1.2,
+      clientHeight: text.clientHeight * 1.2
+    });
+  }
+
+  componentDidUpdate() {
+    const { canvas } = this.refs;
+
+    const { fontSize, fontFamily, color } = this.props;
+
+    canvas.width = this.state.clientWidth;
+    canvas.height = this.state.clientHeight;
 
     const ctx = canvas.getContext("2d");
     ctx.font = `${fontSize} ${fontFamily}`;
@@ -38,9 +61,9 @@ class Handwriting extends React.Component<HandwritingType> {
 
     this.updateCanvas(
       ctx,
-      clientWidth,
-      clientHeight,
-      clientWidth * 0.02,
+      this.state.clientWidth,
+      this.state.clientHeight,
+      this.state.clientWidth * 0.02,
       0,
       220
     );
@@ -109,22 +132,24 @@ class Handwriting extends React.Component<HandwritingType> {
   render() {
     const { children, fontSize, fontFamily } = this.props;
     return (
-      <Fragment>
+      <>
         <canvas ref="canvas" width={0} height={0} />
-        <span
-          ref="text"
-          style={{
-            fontSize,
-            fontFamily,
-            fontWeight: 900,
-            visibility: "hidden",
-            whiteSpace: "nowrap",
-            display: "inline-block"
-          }}
-        >
-          {children}
-        </span>
-      </Fragment>
+        {this.state.preview ? (
+          <span
+            ref="text"
+            style={{
+              fontSize,
+              fontFamily,
+              fontWeight: 900,
+              visibility: "hidden",
+              whiteSpace: "nowrap",
+              display: "inline-block"
+            }}
+          >
+            {children}
+          </span>
+        ) : null}
+      </>
     );
   }
 }
