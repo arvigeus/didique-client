@@ -8,28 +8,11 @@ type PicturePropsType = {
   name?: string,
   link?: string,
   className?: string,
-  attachmentType?: "tape" | "clip" | "pin",
   src: string,
   portrait: boolean,
-  isOffline?: boolean,
-  rotation?: number
-};
-
-const Attachment = ({ type }) => {
-  switch (type) {
-    case "clip":
-      return (
-        <>
-          <div className={styles["paperclip-top"]} />
-          <div className={styles["paperclip-bottom"]} />
-        </>
-      );
-    case "pin":
-      return <div className={styles.pin} />;
-    case "tape":
-      return <div className={styles.tape} />;
-    default:
-      return null;
+  effects?: {
+    grayscale?: boolean,
+    rotation?: number
   }
 };
 
@@ -37,11 +20,9 @@ const Picture = ({
   name,
   link,
   className,
-  attachmentType,
   src,
   portrait,
-  isOffline,
-  rotation,
+  effects,
   ...props
 }: PicturePropsType) => (
   <Link
@@ -53,16 +34,20 @@ const Picture = ({
       className={styles.polarized}
       title={name}
       style={{
-        transform: rotation ? `rotate(${rotation}deg)` : "none"
+        transform:
+          effects && effects.rotation
+            ? `rotate(${effects.rotation}deg)`
+            : "none"
       }}
     >
-      <Attachment type={attachmentType} />
       <div className={styles.photo}>
         <picture>
           <img
             src={src}
             alt={name}
-            style={{ filter: isOffline ? "grayscale(100%)" : "none" }}
+            style={{
+              filter: effects && effects.grayscale ? "grayscale(100%)" : "none"
+            }}
           />
         </picture>
       </div>
