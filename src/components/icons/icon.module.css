@@ -1,0 +1,13 @@
+.icon {
+  position: relative;
+  display: inline-block;
+}
+
+.badge {
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  color: rgb(224, 24, 24);
+  font-size: 16px;
+  font-weight: 900;
+}
