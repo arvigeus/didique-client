@@ -12,7 +12,7 @@ type PicturePropsType = {
   portrait: boolean,
   effects?: {
     grayscale?: boolean,
-    rotation?: number
+    rotate?: number
   }
 };
 
@@ -35,9 +35,7 @@ const Picture = ({
       title={name}
       style={{
         transform:
-          effects && effects.rotation
-            ? `rotate(${effects.rotation}deg)`
-            : "none"
+          effects && effects.rotate ? `rotate(${effects.rotate}deg)` : "none"
       }}
     >
       <div className={styles.photo}>

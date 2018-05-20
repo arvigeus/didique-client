@@ -19,6 +19,7 @@
   min-height: 10px;
   content: attr(title);
   font-family: var(--font-handwriting);
+  font-size: 25px;
 }
 
 .photo {
