@@ -1,5 +1,5 @@
 import isAuthenticated from "lib/isAuthenticated";
-import React, { Fragment } from "react";
+import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import styles from "./Header.module.css";
 
@@ -9,20 +9,20 @@ const Header = () => (
       Home
     </NavLink>
     {isAuthenticated() ? (
-      <Fragment>
-        <NavLink to="/about" activeClassName={styles.selected}>
-          About
-        </NavLink>
-        <Link to="/signout">Sign out</Link>
-      </Fragment>
+      <NavLink to="/about" activeClassName={styles.selected}>
+        About
+      </NavLink>
+    ) : null}
+    <NavLink to="/contact-us" activeClassName={styles.selected}>
+      Contact Us
+    </NavLink>
+    {isAuthenticated() ? (
+      <Link to="/signout">Sign out</Link>
     ) : (
       <NavLink to="/sign-in" activeClassName={styles.selected}>
         Sign In
       </NavLink>
     )}
-    <NavLink to="/contact-us" activeClassName={styles.selected}>
-      Contact Us
-    </NavLink>
   </header>
 );
 export default Header;
