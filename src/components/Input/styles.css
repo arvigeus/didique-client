@@ -270,6 +270,11 @@
   text-shadow: 0 0 0 var(--input-color);
 }
 
+.input-search {
+  width: calc(100% - 34px);
+  vertical-align: bottom;
+}
+
 .control .error,
 .control .warning {
   position: absolute;

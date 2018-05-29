@@ -16,7 +16,10 @@ type FieldPropsType = {
   className?: string,
   label: string,
   value?: string,
-  error?: string
+  error?: string,
+  onChange?: (SyntheticInputEvent<HTMLInputElement>) => void,
+  onBlur?: (SyntheticInputEvent<HTMLInputElement>) => void,
+  onFocus?: (SyntheticInputEvent<HTMLInputElement>) => void
 };
 
 type FieldStateType = {
@@ -42,18 +45,30 @@ class Field extends PureComponent<FieldPropsType, FieldStateType> {
       elem.style.height = elem.scrollHeight + "px";
       elem.scrollTop = elem.scrollHeight;
     }
+    if (this.props.onChange) this.props.onChange(event);
   };
 
-  handleFocus = () => {
+  handleFocus = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({ hasFocus: false });
+    if (this.props.onFocus) this.props.onFocus(event);
   };
 
-  handleBlur = () => {
+  handleBlur = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({ hasFocus: false });
+    if (this.props.onBlur) this.props.onBlur(event);
   };
 
   render() {
-    const { type, id, className, label, ...props } = this.props;
+    const {
+      type,
+      id,
+      className,
+      label,
+      onChange,
+      onFocus,
+      onBlur,
+      ...props
+    } = this.props;
     const { value, hasFocus } = this.state;
 
     const stateClasses = {};
