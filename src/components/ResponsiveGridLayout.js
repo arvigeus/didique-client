@@ -2,6 +2,7 @@
 import React from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-resizable/css/styles.css";
+import "./ResponsiveGridLayout.css";
 
 type ResponsiveGridLayoutPropsType = {
   children: any
@@ -14,6 +15,7 @@ const ResponsiveGridLayout = ({
   ...props
 }: ResponsiveGridLayoutPropsType) => (
   <ResponsiveGridLayoutProvider
+    className="layout"
     breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
     {...props}
   >
