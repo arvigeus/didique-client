@@ -3,15 +3,11 @@ import React from "react";
 import Icon from "./Icon";
 
 type TodoPropType = {
-  size: number,
-  className?: string,
-  link?: string,
-  badge?: number,
-  badgeClass?: string
+  size: number
 };
 
-const Todo = ({ size, className, link, badge, badgeClass }: TodoPropType) => (
-  <Icon className={className} link={link} badge={badge} badgeClass={badgeClass}>
+const Todo = ({ size, ...props }: TodoPropType) => (
+  <Icon {...props}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"

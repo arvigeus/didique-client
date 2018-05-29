@@ -3,15 +3,11 @@ import React from "react";
 import Icon from "./Icon";
 
 type MovePropType = {
-  size: number,
-  className?: string,
-  link?: string,
-  badge?: number,
-  badgeClass?: string
+  size: number
 };
 
-const Move = ({ size, className, link, badge, badgeClass }: MovePropType) => (
-  <Icon className={className} link={link} badge={badge} badgeClass={badgeClass}>
+const Move = ({ size, ...props }: MovePropType) => (
+  <Icon {...props}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"

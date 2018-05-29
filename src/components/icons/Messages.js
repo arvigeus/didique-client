@@ -4,24 +4,16 @@ import Icon from "./Icon";
 
 type MessagesPropType = {
   size: number,
-  className?: string,
   link?: string,
-  badge?: number,
-  badgeClass?: string
+  badge?: number
 };
 
-const Messages = ({
-  size,
-  className,
-  link,
-  badge,
-  badgeClass
-}: MessagesPropType) => (
+const Messages = ({ size, link, badge, ...props }: MessagesPropType) => (
   <Icon
-    className={className}
-    link={badge != null ? link : null}
+    link={badge !== null ? link : null}
+    disabled={badge === null}
     badge={badge}
-    badgeClass={badgeClass}
+    {...props}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +25,6 @@ const Messages = ({
       viewBox="0 0 479.219 479.219"
     >
       <path
-        fill={badge != null ? "#000" : "#aaa"}
         d="M475.654,81.175c-0.036-1.077-0.071-2.153-0.107-3.234c-0.432-12.787-1.909-24.342-10.349-34.574
 			c-7.744-9.392-20.805-12.454-32.28-13.51c-0.671-0.063-1.315,0.011-1.96,0.079c-0.361-0.016-0.681-0.089-1.057-0.079
 			c-48.378,1.295-96.726,0.063-145.093-1.389c-0.411-0.03-0.777-0.119-1.204-0.119h-63.35c-0.244,0-0.447,0.059-0.686,0.068
@@ -58,7 +49,6 @@ const Messages = ({
 			C451.756,220.883,452.757,229.192,451.807,236.822z"
       />
       <path
-        fill={badge != null ? "#000" : "#aaa"}
         d="M281.609,305.997c0,0,0,31.976,0.016,32.123c-0.66,1.539-1.098,3.22-1.295,4.972c0.248-2.219-0.528,1.96-0.528,1.945
 			c-0.117,0.462-0.193,0.786-0.233,1c-0.092,0.173-0.198,0.36-0.355,0.69c-0.057,0.102-1.082,1.66-1.234,2.011
 			c-0.492,0.559-1.016,1.082-1.559,1.579c0.121-0.233-1.834,1.234-1.996,1.325c-0.31,0.184-0.487,0.295-0.66,0.401

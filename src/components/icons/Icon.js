@@ -9,6 +9,7 @@ type IconPropType = {
   link?: ?string,
   badge?: number,
   badgeClass?: string,
+  disabled?: boolean,
   children: any
 };
 
@@ -17,7 +18,9 @@ const Icon = ({
   link,
   children,
   badge,
-  badgeClass
+  badgeClass,
+  disabled,
+  ...props
 }: IconPropType) => {
   const badgeIcon =
     badge && badge > 0 ? (
@@ -25,13 +28,18 @@ const Icon = ({
         {badge > 99 ? "**" : badge}
       </div>
     ) : null;
+  const iconClass = cx([
+    styles.icon,
+    { [styles["disabled-icon"]]: disabled },
+    className
+  ]);
   return link ? (
-    <Link to={link} className={cx([styles.icon, className])}>
+    <Link to={link} className={iconClass} {...props} draggable={false}>
       {children}
       {badgeIcon}
     </Link>
   ) : (
-    <div className={cx([styles.icon, className])}>
+    <div className={iconClass} {...props}>
       {children}
       {badgeIcon}
     </div>

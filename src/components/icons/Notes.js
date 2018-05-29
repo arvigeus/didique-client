@@ -3,15 +3,11 @@ import React from "react";
 import Icon from "./Icon";
 
 type NotesPropType = {
-  size: number,
-  className?: string,
-  link?: string,
-  badge?: number,
-  badgeClass?: string
+  size: number
 };
 
-const Notes = ({ size, className, link, badge, badgeClass }: NotesPropType) => (
-  <Icon className={className} link={link} badge={badge} badgeClass={badgeClass}>
+const Notes = ({ size, ...props }: NotesPropType) => (
+  <Icon {...props}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"

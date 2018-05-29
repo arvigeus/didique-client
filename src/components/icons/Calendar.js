@@ -3,21 +3,11 @@ import React from "react";
 import Icon from "./Icon";
 
 type CalendarPropType = {
-  size: number,
-  className?: string,
-  link?: string,
-  badge?: number,
-  badgeClass?: string
+  size: number
 };
 
-const Calendar = ({
-  size,
-  className,
-  link,
-  badge,
-  badgeClass
-}: CalendarPropType) => (
-  <Icon className={className} link={link} badge={badge} badgeClass={badgeClass}>
+const Calendar = ({ size, ...props }: CalendarPropType) => (
+  <Icon {...props}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"

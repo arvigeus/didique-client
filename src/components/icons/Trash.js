@@ -3,21 +3,11 @@ import React from "react";
 import Icon from "./Icon";
 
 type MessagesPropType = {
-  size: number,
-  className?: string,
-  link?: string,
-  badge?: number,
-  badgeClass?: string
+  size: number
 };
 
-const Messages = ({
-  size,
-  className,
-  link,
-  badge,
-  badgeClass
-}: MessagesPropType) => (
-  <Icon className={className} link={link} badge={badge} badgeClass={badgeClass}>
+const Messages = ({ size, ...props }: MessagesPropType) => (
+  <Icon {...props}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
