@@ -1,0 +1,5 @@
+mutation deleteFriend($id: ID!) {
+  deleteFriend(id: $id) {
+    id
+  }
+}

@@ -1,0 +1,18 @@
+query friends($query: String) {
+  friends(query: $query) {
+    id
+    name
+    picture
+    stats {
+      isOnline
+      messagesCount
+      eventsCount
+      notesCount
+      todosCount
+      position {
+        x
+        y
+      }
+    }
+  }
+}

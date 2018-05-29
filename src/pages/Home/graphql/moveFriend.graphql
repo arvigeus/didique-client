@@ -1,0 +1,11 @@
+mutation moveFriend($id: ID!, $x: Int!, $y: Int!) {
+  moveFriend(id: $id, x: $x, y: $y) {
+    id
+    stats {
+      position {
+        x
+        y
+      }
+    }
+  }
+}
