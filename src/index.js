@@ -8,6 +8,8 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import registerServiceWorker from "./registerServiceWorker";
 
+global.window.friends = {};
+
 const client = new ApolloClient({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`
 });
