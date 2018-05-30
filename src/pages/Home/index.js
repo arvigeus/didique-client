@@ -1,35 +1,48 @@
 // @flow
-import cx from "classnames";
 import Handwriting from "components/Handwriting";
+import Button from "components/Input/Button";
 import Search from "components/Input/Search";
 import ResponsiveGridLayout from "components/ResponsiveGridLayout";
 import AddFriendIcon from "components/icons/AddFriend";
 import React from "react";
 import { Mutation, Query } from "react-apollo";
-import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
+import AddFriendPopup from "./containers/AddFriendPopup";
 import Card from "./containers/Card";
 import friendsQuery from "./graphql/friends.graphql";
 import moveFriendMutation from "./graphql/moveFriend.graphql";
 
 type HomeStateType = {
-  query: ?string
+  query: ?string,
+  showDialog: boolean
 };
 
 class Home extends React.PureComponent<null, HomeStateType> {
   state = {
-    query: null
+    query: null,
+    showDialog: false
   };
 
   searchFriends = (e: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({ query: e.target.value });
   };
 
+  showAddFriendPopup = () => {
+    this.setState({ showDialog: true });
+  };
+
+  closeAddFriendPopup = () => {
+    this.setState({ showDialog: false });
+  };
+
   render() {
-    const { query } = this.state;
+    const { query, showDialog } = this.state;
     const isDraggable = !query;
     return (
       <>
+        {showDialog ? (
+          <AddFriendPopup cancel={this.closeAddFriendPopup} />
+        ) : null}
         <div className={styles.controls}>
           <Search
             id="search-friends"
@@ -39,10 +52,13 @@ class Home extends React.PureComponent<null, HomeStateType> {
             onChange={this.searchFriends}
             autoFocus
           />
-          <Link className={cx("button", styles.addFriend)} to="/friends/add">
+          <Button
+            className={styles.addFriend}
+            onClick={this.showAddFriendPopup}
+          >
             <AddFriendIcon size={34} />
             <span>Add friend</span>
-          </Link>
+          </Button>
         </div>
         <Query query={friendsQuery} variables={{ query }}>
           {({ loading, error, data }) => {

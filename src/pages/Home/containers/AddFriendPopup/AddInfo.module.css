@@ -1,0 +1,27 @@
+.wrapper {
+  display: grid;
+  grid-gap: 0 10px;
+  grid-template:
+    "picture name" auto
+    "picture email" auto
+    "next next" auto
+    / 140px auto;
+}
+
+.picture {
+  align-self: center;
+  grid-area: picture;
+}
+
+.name {
+  grid-area: name;
+}
+
+.email {
+  grid-area: email;
+}
+
+.next {
+  width: 100%;
+  grid-area: next;
+}
