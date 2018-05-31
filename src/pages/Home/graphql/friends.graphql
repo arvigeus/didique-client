@@ -2,6 +2,7 @@ query friends($query: String) {
   friends(query: $query) {
     id
     name
+    nickname
     picture
     stats {
       isOnline

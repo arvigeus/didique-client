@@ -51,7 +51,18 @@ const Tape = ({
       >
         <Mutation
           mutation={deleteFriend}
-          update={(cache, { data: { deleteFriend } }) => {
+          update={(
+            cache,
+            {
+              data: {
+                deleteFriend: { ok, errors }
+              }
+            }
+          ) => {
+            if (!ok) {
+              // TODO: Display error
+              return;
+            }
             const { friends } = cache.readQuery({
               query: friendsQuery
             });

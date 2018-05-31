@@ -82,14 +82,22 @@ class Home extends React.PureComponent<null, HomeStateType> {
                     {
                       data: {
                         moveFriend: {
-                          id,
-                          stats: {
-                            position: { x, y }
-                          }
+                          ok,
+                          friend: {
+                            id,
+                            stats: {
+                              position: { x, y }
+                            }
+                          },
+                          errors
                         }
                       }
                     }
                   ) => {
+                    if (!ok) {
+                      // TODO: Display error
+                      return;
+                    }
                     const { friends } = cache.readQuery({
                       query: friendsQuery
                     });
@@ -111,10 +119,11 @@ class Home extends React.PureComponent<null, HomeStateType> {
                         moveFriend({ variables: { id, x, y } });
                       }}
                     >
-                      {friends.map(({ id, stats, ...friend }) => (
+                      {friends.map(({ id, nickname, stats, ...friend }) => (
                         <Card
                           key={id}
                           id={id}
+                          link={`/friend/${nickname}`}
                           isDraggable={isDraggable}
                           data-grid={{
                             x: stats.position.x,

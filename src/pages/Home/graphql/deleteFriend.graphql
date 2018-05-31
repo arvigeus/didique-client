@@ -1,5 +1,9 @@
 mutation deleteFriend($id: ID!) {
   deleteFriend(id: $id) {
-    id
+    ok
+    friend {
+      id
+    }
+    errors
   }
 }

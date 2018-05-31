@@ -7,6 +7,7 @@ import Tape from "./Tape";
 
 type CardType = {
   id: string,
+  link: string,
   name: string,
   picture: string,
   stats: {
@@ -21,6 +22,7 @@ type CardType = {
 
 const Card = ({
   id,
+  link,
   name,
   picture,
   className,
@@ -38,7 +40,7 @@ const Card = ({
       todosCount={todosCount}
     />
     <Picture
-      link={`/friend/${id}`}
+      link={link}
       src={picture}
       name={name}
       effects={{
