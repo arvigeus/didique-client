@@ -32,47 +32,6 @@
 }
 
 .popup {
-  position: relative;
-  z-index: 2;
   max-width: 80%;
-  box-sizing: border-box;
-  padding: 16px 22px;
   margin: auto;
-  background: linear-gradient(-90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px), #efeffe;
-  background-size: 4px 4px, 4px 4px;
-  border-bottom-left-radius: 20px 500px;
-  border-bottom-right-radius: 500px 16px;
-  border-top-right-radius: 5px 100px;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.title {
-  overflow: hidden;
-  width: 80%;
-  height: 28px;
-  box-sizing: border-box;
-  padding: 0 6px;
-  border-color: transparent;
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-  border-style: solid;
-  border-width: 0 0 2px;
-  line-height: 24px;
-  text-overflow: ellipsis;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.title-line {
-  border-color: var(--input-color);
-}
-
-.close {
-  cursor: pointer;
 }
