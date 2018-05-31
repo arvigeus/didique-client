@@ -81,30 +81,24 @@ class Home extends React.PureComponent<null, HomeStateType> {
                     cache,
                     {
                       data: {
-                        moveFriend: {
-                          ok,
-                          friend: {
-                            id,
-                            stats: {
-                              position: { x, y }
-                            }
-                          },
-                          errors
-                        }
+                        moveFriend: { ok, friend, errors }
                       }
                     }
                   ) => {
-                    if (!ok) {
-                      // TODO: Display error
-                      return;
-                    }
+                    if (!ok) return;
                     const { friends } = cache.readQuery({
                       query: friendsQuery
                     });
-                    const friend = friends.find(elem => elem.id === id);
-                    if (friend) {
-                      friend.stats.position.x = x;
-                      friend.stats.position.y = y;
+                    const {
+                      id,
+                      stats: {
+                        position: { x, y }
+                      }
+                    } = friend;
+                    const movedFriend = friends.find(elem => elem.id === id);
+                    if (movedFriend) {
+                      movedFriend.stats.position.x = x;
+                      movedFriend.stats.position.y = y;
                     }
                   }}
                 >

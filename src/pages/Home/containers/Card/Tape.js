@@ -55,14 +55,12 @@ const Tape = ({
             cache,
             {
               data: {
-                deleteFriend: { ok, errors }
+                deleteFriend: { ok, friend, errors }
               }
             }
           ) => {
-            if (!ok) {
-              // TODO: Display error
-              return;
-            }
+            if (!ok) return;
+            const { id } = friend;
             const { friends } = cache.readQuery({
               query: friendsQuery
             });

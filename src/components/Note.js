@@ -13,7 +13,7 @@ type NotePropsType = {
 
 const Note = ({ className, title, cancel, children }: NotePropsType) => (
   <div className={cx(styles.note, className)}>
-    {title && cancel ? (
+    {title || cancel ? (
       <div className={styles.header}>
         <div className={cx(styles.title, { [styles["title-line"]]: !!title })}>
           {title}
