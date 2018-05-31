@@ -275,34 +275,23 @@
   vertical-align: bottom;
 }
 
-.control .error,
-.control .warning {
+.field .info,
+.field .error,
+.field .warning {
   position: absolute;
-  z-index: 1;
-  right: 0;
-  bottom: 6px;
+  bottom: 5px;
   display: block;
-  background-color: var(--input-active-color);
+  order: 3;
   font-size: small;
   font-style: italic;
 }
 
-.control .error,
-.control .error::before {
+.field .error {
   color: #c11;
 }
 
-.control .error::before {
-  content: "[x] ";
-}
-
-.control .warning,
-.control .warning::before {
+.field .warning {
   color: #b91;
-}
-
-.control .warning::before {
-  content: "[*] ";
 }
 
 input[type="submit"],

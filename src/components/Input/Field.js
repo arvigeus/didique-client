@@ -16,7 +16,8 @@ type FieldPropsType = {
   className?: string,
   label: string,
   value?: string,
-  error?: string,
+  validate?: (string => boolean | string) | Array<(string) => boolean | string>,
+  hint?: string,
   onChange?: (SyntheticInputEvent<HTMLInputElement>) => void,
   onBlur?: (SyntheticInputEvent<HTMLInputElement>) => void,
   onFocus?: (SyntheticInputEvent<HTMLInputElement>) => void
@@ -24,7 +25,8 @@ type FieldPropsType = {
 
 type FieldStateType = {
   value: string,
-  hasFocus: boolean
+  hasFocus: boolean,
+  hint?: string
 };
 
 class Field extends PureComponent<FieldPropsType, FieldStateType> {
@@ -34,7 +36,11 @@ class Field extends PureComponent<FieldPropsType, FieldStateType> {
 
   state = {
     value: this.props.value || "",
-    hasFocus: false
+    hasFocus: false,
+    hint:
+      this.props.hint || this.props.required
+        ? { type: "info", message: this.props.hint || "Required" }
+        : null
   };
 
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -54,8 +60,18 @@ class Field extends PureComponent<FieldPropsType, FieldStateType> {
   };
 
   handleBlur = (event: SyntheticInputEvent<HTMLInputElement>) => {
-    this.setState({ hasFocus: false });
-    if (this.props.onBlur) this.props.onBlur(event);
+    const { hint, required, validate, onBlur } = this.props;
+    let valididationHint =
+      hint || required ? { type: "info", message: hint || "Required" } : null;
+    if (validate) {
+      let check;
+      if (Array.isArray(validate)) check = validate[0];
+      check = validate;
+      const result = check(event.target.value);
+      if (result !== true) valididationHint = result;
+    }
+    this.setState({ hasFocus: false, hint: valididationHint });
+    if (onBlur) onBlur(event);
   };
 
   render() {
@@ -67,9 +83,11 @@ class Field extends PureComponent<FieldPropsType, FieldStateType> {
       onChange,
       onFocus,
       onBlur,
+      validate,
+      hint: _, // Unused
       ...props
     } = this.props;
-    const { value, hasFocus } = this.state;
+    const { value, hasFocus, hint } = this.state;
 
     const stateClasses = {};
     stateClasses["has-value"] = !!value;
@@ -81,7 +99,7 @@ class Field extends PureComponent<FieldPropsType, FieldStateType> {
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
-      onBlur: this.handleFocus
+      onBlur: this.handleBlur
     };
 
     return (
@@ -92,6 +110,11 @@ class Field extends PureComponent<FieldPropsType, FieldStateType> {
         ) : (
           <textarea {...inputAttr} {...props} />
         )}
+        {hint ? (
+          <div key={id} className={hint.type}>
+            {hint.message}
+          </div>
+        ) : null}
       </div>
     );
   }
