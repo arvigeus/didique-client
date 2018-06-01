@@ -15,7 +15,7 @@
 .checkbox {
   position: relative;
   box-sizing: border-box;
-  padding: 5px;
+  padding: 5px 5px 20px;
 }
 
 .field,
@@ -275,15 +275,16 @@
   vertical-align: bottom;
 }
 
-.field .info,
+.field .hint,
 .field .error,
 .field .warning {
   position: absolute;
-  bottom: 5px;
+  bottom: 0;
   display: block;
   order: 3;
   font-size: small;
   font-style: italic;
+  white-space: nowrap;
 }
 
 .field .error {
