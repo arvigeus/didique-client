@@ -1,0 +1,13 @@
+mutation moveFriends($changes: [GridItemInput!]) {
+  moveFriends(changes: $changes) {
+    ok
+    items {
+      id
+      x
+      y
+      width
+      height
+    }
+    errors
+  }
+}

@@ -10,18 +10,28 @@ import styles from "./Home.module.css";
 import AddFriendPopup from "./containers/AddFriendPopup";
 import Card from "./containers/Card";
 import friendsQuery from "./graphql/friends.graphql";
-import moveFriendMutation from "./graphql/moveFriend.graphql";
+import moveFriendsMutation from "./graphql/moveFriends.graphql";
+
+type LayoutType = {
+  i: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+};
 
 type HomeStateType = {
-  query: ?string,
+  query: string,
   showDialog: boolean
 };
 
 class Home extends React.PureComponent<null, HomeStateType> {
   state = {
-    query: null,
+    query: "",
     showDialog: false
   };
+
+  layout = [];
 
   searchFriends = (e: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({ query: e.target.value });
@@ -33,6 +43,84 @@ class Home extends React.PureComponent<null, HomeStateType> {
 
   closeAddFriendPopup = () => {
     this.setState({ showDialog: false });
+  };
+
+  onLayoutChange = (
+    move: ({ variables: { changes: Array<LayoutType> } }) => void,
+    newLayout: Array<LayoutType>
+  ) => {
+    if (this.state.query) return;
+    const changes = newLayout.filter(changed => {
+      const old = this.layout.find(elem => elem.i === changed.i);
+      return old && (changed.x !== old.x || changed.y !== old.y);
+    });
+    this.layout = newLayout;
+    if (changes.length)
+      move({
+        variables: {
+          changes: changes.map(({ i, x, y, w, h }) => ({
+            id: i,
+            x,
+            y,
+            width: w,
+            height: h
+          }))
+        },
+        refetchQueries: ["friends"]
+      });
+  };
+
+  getFriendsFromCache = (cache: any) => {
+    const { query } = this.state;
+    const { friends } = cache.readQuery({
+      query: friendsQuery,
+      variables: { query }
+    });
+    return friends;
+  };
+
+  onFriendsMoved = (
+    cache: any,
+    {
+      data: {
+        moveFriends: { ok, items, errors }
+      }
+    }
+  ) => {
+    if (!ok) return;
+    const { query } = this.state;
+    const friends = this.getFriendsFromCache(cache);
+    for (const friend of friends) {
+      const changed = items.find(({ id }) => id === friend.id);
+      if (changed) {
+        friend.stats.position.x = changed.x;
+        friend.stats.position.y = changed.y;
+      }
+    }
+    cache.writeQuery({
+      query: friendsQuery,
+      variables: { query },
+      data: { friends }
+    });
+  };
+
+  onFriendDeleted = (
+    cache,
+    {
+      data: {
+        deleteFriend: { ok, friend, errors }
+      }
+    }
+  ) => {
+    if (!ok) return;
+    const { query } = this.state;
+    const friends = this.getFriendsFromCache(cache);
+    const { id } = friend;
+    cache.writeQuery({
+      query: friendsQuery,
+      variables: { query },
+      data: { friends: friends.filter(e => e.id !== id) }
+    });
   };
 
   render() {
@@ -73,61 +161,55 @@ class Home extends React.PureComponent<null, HomeStateType> {
 
             if (!friends.length) return "Nothing, hmmm...";
 
+            if (isDraggable) {
+              this.layout = friends.map(
+                ({
+                  id: i,
+                  stats: {
+                    position: { x, y }
+                  }
+                }) => ({ i, x, y, w: 1, h: 1 })
+              );
+            }
+
             return (
               <div className={styles.home}>
                 <Mutation
-                  mutation={moveFriendMutation}
-                  update={(
-                    cache,
-                    {
-                      data: {
-                        moveFriend: { ok, friend, errors }
-                      }
-                    }
-                  ) => {
-                    if (!ok) return;
-                    const { friends } = cache.readQuery({
-                      query: friendsQuery
-                    });
-                    const {
-                      id,
-                      stats: {
-                        position: { x, y }
-                      }
-                    } = friend;
-                    const movedFriend = friends.find(elem => elem.id === id);
-                    if (movedFriend) {
-                      movedFriend.stats.position.x = x;
-                      movedFriend.stats.position.y = y;
-                    }
-                  }}
+                  mutation={moveFriendsMutation}
+                  update={this.onFriendsMoved}
                 >
-                  {moveFriend => (
+                  {moveFriends => (
                     <ResponsiveGridLayout
-                      cols={{ lg: 6, md: 4, sm: 3, xs: 2, xxs: 1 }}
+                      cols={{ lg: 4, md: 4, sm: 3, xs: 2, xxs: 1 }}
                       draggableHandle=".grid-item-move"
-                      rowHeight={340}
+                      rowHeight={380}
                       margin={[40, 5]}
                       isDraggable={isDraggable}
-                      onDragStop={(friendCards, prevState, { i: id, x, y }) => {
-                        moveFriend({ variables: { id, x, y } });
-                      }}
+                      isResizable={false}
+                      onLayoutChange={this.onLayoutChange.bind(
+                        this,
+                        moveFriends
+                      )}
                     >
                       {friends.map(({ id, nickname, stats, ...friend }) => (
-                        <Card
+                        <div
                           key={id}
-                          id={id}
-                          link={`/friend/${nickname}`}
-                          isDraggable={isDraggable}
                           data-grid={{
                             x: stats.position.x,
                             y: stats.position.y,
                             w: 1,
                             h: 1
                           }}
-                          stats={stats}
-                          {...friend}
-                        />
+                        >
+                          <Card
+                            id={id}
+                            link={`/friend/${nickname}`}
+                            isDraggable={isDraggable}
+                            stats={stats}
+                            onFriendDeleted={this.onFriendDeleted}
+                            {...friend}
+                          />
+                        </div>
                       ))}
                     </ResponsiveGridLayout>
                   )}

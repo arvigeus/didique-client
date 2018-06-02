@@ -19,7 +19,8 @@ type TapePropsType = {
   messagesCount?: number,
   eventsCount?: number,
   notesCount?: number,
-  todosCount?: number
+  todosCount?: number,
+  onFriendDeleted: any
 };
 
 const Tape = ({
@@ -28,7 +29,8 @@ const Tape = ({
   messagesCount,
   eventsCount,
   notesCount,
-  todosCount
+  todosCount,
+  onFriendDeleted
 }: TapePropsType) => {
   const friend = friendStore(id);
   return (
@@ -49,27 +51,7 @@ const Tape = ({
         className={cx([styles.tape, styles.tapeDelete])}
         style={{ transform: `rotate(${friend.tapeDelete}deg)` }}
       >
-        <Mutation
-          mutation={deleteFriend}
-          update={(
-            cache,
-            {
-              data: {
-                deleteFriend: { ok, friend, errors }
-              }
-            }
-          ) => {
-            if (!ok) return;
-            const { id } = friend;
-            const { friends } = cache.readQuery({
-              query: friendsQuery
-            });
-            cache.writeQuery({
-              query: friendsQuery,
-              data: { friends: friends.filter(e => e.id !== id) }
-            });
-          }}
-        >
+        <Mutation mutation={deleteFriend} update={onFriendDeleted}>
           {deleteFriend => (
             <TrashIcon
               link="#"
@@ -77,7 +59,10 @@ const Tape = ({
               className={styles.iconControls}
               onClick={e => {
                 e.preventDefault();
-                deleteFriend({ variables: { id } });
+                deleteFriend({
+                  variables: { id },
+                  refetchQueries: ["friends"]
+                });
               }}
             />
           )}

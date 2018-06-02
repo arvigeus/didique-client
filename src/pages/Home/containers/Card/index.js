@@ -17,6 +17,7 @@ type CardType = {
     totalNotes: number,
     totalTodos: number
   },
+  onFriendDeleted: any,
   isDraggable: boolean
 };
 
@@ -27,10 +28,11 @@ const Card = ({
   picture,
   className,
   stats: { isOnline, messagesCount, eventsCount, notesCount, todosCount },
+  onFriendDeleted,
   isDraggable,
   ...props
 }: CardType) => (
-  <div key={id} className={cx([className, styles.card])} {...props}>
+  <div className={cx([className, styles.card])} {...props}>
     <Tape
       id={id}
       isDraggable={isDraggable}
@@ -38,6 +40,7 @@ const Card = ({
       eventsCount={eventsCount}
       notesCount={notesCount}
       todosCount={todosCount}
+      onFriendDeleted={onFriendDeleted}
     />
     <Picture
       link={link}
