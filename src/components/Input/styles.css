@@ -272,7 +272,11 @@
 
 .input-search {
   width: calc(100% - 34px);
-  vertical-align: bottom;
+}
+
+.input-search,
+.input-search-icon {
+  vertical-align: middle;
 }
 
 .field .hint,

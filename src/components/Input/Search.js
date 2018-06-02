@@ -29,7 +29,7 @@ class Search extends React.Component<SearchPropsType> {
     const { id, className, label, onChange, ...props } = this.props;
     return (
       <div className={className}>
-        <SearchIcon size={34} />
+        <SearchIcon size={34} className="input-search-icon" />
         <Field
           id={id}
           className="input-search"
