@@ -36,6 +36,7 @@ const Card = ({
     <Tape
       id={id}
       name={name}
+      link={link}
       isDraggable={isDraggable}
       messagesCount={messagesCount}
       eventsCount={eventsCount}

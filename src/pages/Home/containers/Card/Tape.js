@@ -16,6 +16,7 @@ import { PopupContext, ConfirmPopup } from "components/Popup";
 type TapePropsType = {
   id: string,
   name: string,
+  link: string,
   isDraggable: boolean,
   messagesCount?: number,
   eventsCount?: number,
@@ -27,6 +28,7 @@ type TapePropsType = {
 const Tape = ({
   id,
   name,
+  link,
   isDraggable,
   messagesCount,
   eventsCount,
@@ -75,7 +77,7 @@ const Tape = ({
                         cancel={() => showPopup(null)}
                       >
                         <div style={{ fontSize: "22px" }}>
-                          Are you sure to{" "}
+                          Are you sure want to{" "}
                           <span style={{ color: "red" }}>DELETE</span>{" "}
                           <strong>{name}</strong>?
                         </div>
@@ -98,28 +100,28 @@ const Tape = ({
         {/* TODO: Don't show messages if user is me */}
         <MessagesIcon
           size={36}
-          link={`/friend/${id}/messages`}
+          link={`${link}/messages`}
           className={styles.iconLink}
           badge={messagesCount}
           badgeClass={styles.badge}
         />
         <CalendarIcon
           size={36}
-          link={`/friend/${id}/calendar`}
+          link={`${link}/calendar`}
           className={styles.iconLink}
           badge={eventsCount}
           badgeClass={styles.badge}
         />
         <NotesIcon
           size={36}
-          link={`/friend/${id}/notes`}
+          link={`${link}/notes`}
           className={styles.iconLink}
           badge={notesCount}
           badgeClass={styles.badge}
         />
         <TodoIcon
           size={36}
-          link={`/friend/${id}/todo`}
+          link={`${link}/todo`}
           className={styles.iconLink}
           badge={todosCount}
           badgeClass={styles.badge}
