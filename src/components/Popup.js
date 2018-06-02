@@ -17,4 +17,6 @@ const Popup = ({ cancel, children, ...props }: PopupPropsType) => (
   </div>
 );
 
+export const PopupContext = React.createContext(() => {});
+
 export default Popup;

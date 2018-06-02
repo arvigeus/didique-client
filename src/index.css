@@ -22,12 +22,3 @@ button:focus,
 a:focus {
   outline: 0;
 }
-
-#root {
-  position: relative; /* This is needed for the stacked paper effect to work */
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}

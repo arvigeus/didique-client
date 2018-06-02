@@ -11,6 +11,7 @@ import AddFriendPopup from "./containers/AddFriendPopup";
 import Card from "./containers/Card";
 import friendsQuery from "./graphql/friends.graphql";
 import moveFriendsMutation from "./graphql/moveFriends.graphql";
+import { PopupContext } from "components/Popup";
 
 type LayoutType = {
   i: string,
@@ -21,28 +22,18 @@ type LayoutType = {
 };
 
 type HomeStateType = {
-  query: string,
-  showDialog: boolean
+  query: string
 };
 
 class Home extends React.PureComponent<null, HomeStateType> {
   state = {
-    query: "",
-    showDialog: false
+    query: ""
   };
 
   layout = [];
 
   searchFriends = (e: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({ query: e.target.value });
-  };
-
-  showAddFriendPopup = () => {
-    this.setState({ showDialog: true });
-  };
-
-  closeAddFriendPopup = () => {
-    this.setState({ showDialog: false });
   };
 
   onLayoutChange = (
@@ -124,13 +115,10 @@ class Home extends React.PureComponent<null, HomeStateType> {
   };
 
   render() {
-    const { query, showDialog } = this.state;
+    const { query } = this.state;
     const isDraggable = !query;
     return (
       <>
-        {showDialog ? (
-          <AddFriendPopup cancel={this.closeAddFriendPopup} />
-        ) : null}
         <div className={styles.controls}>
           <Search
             id="search-friends"
@@ -140,13 +128,19 @@ class Home extends React.PureComponent<null, HomeStateType> {
             onChange={this.searchFriends}
             autoFocus
           />
-          <Button
-            className={styles.addFriend}
-            onClick={this.showAddFriendPopup}
-          >
-            <AddFriendIcon size={34} />
-            <span>Add friend</span>
-          </Button>
+          <PopupContext.Consumer>
+            {showPopup => (
+              <Button
+                className={styles.addFriend}
+                onClick={() => {
+                  showPopup(<AddFriendPopup cancel={() => showPopup(null)} />);
+                }}
+              >
+                <AddFriendIcon size={34} />
+                <span>Add friend</span>
+              </Button>
+            )}
+          </PopupContext.Consumer>
         </div>
         <Query query={friendsQuery} variables={{ query }}>
           {({ loading, error, data }) => {
