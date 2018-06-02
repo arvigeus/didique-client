@@ -35,6 +35,7 @@ const Card = ({
   <div className={cx([className, styles.card])} {...props}>
     <Tape
       id={id}
+      name={name}
       isDraggable={isDraggable}
       messagesCount={messagesCount}
       eventsCount={eventsCount}

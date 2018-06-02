@@ -10,11 +10,12 @@ import friendStore from "lib/friendStore";
 import React from "react";
 import { Mutation } from "react-apollo";
 import deleteFriend from "../../graphql/deleteFriend.graphql";
-import friendsQuery from "../../graphql/friends.graphql";
 import styles from "./Tape.module.css";
+import { PopupContext, ConfirmPopup } from "components/Popup";
 
 type TapePropsType = {
   id: string,
+  name: string,
   isDraggable: boolean,
   messagesCount?: number,
   eventsCount?: number,
@@ -25,6 +26,7 @@ type TapePropsType = {
 
 const Tape = ({
   id,
+  name,
   isDraggable,
   messagesCount,
   eventsCount,
@@ -53,18 +55,36 @@ const Tape = ({
       >
         <Mutation mutation={deleteFriend} update={onFriendDeleted}>
           {deleteFriend => (
-            <TrashIcon
-              link="#"
-              size={30}
-              className={styles.iconControls}
-              onClick={e => {
-                e.preventDefault();
-                deleteFriend({
-                  variables: { id },
-                  refetchQueries: ["friends"]
-                });
-              }}
-            />
+            <PopupContext.Consumer>
+              {showPopup => (
+                <TrashIcon
+                  link="#"
+                  size={30}
+                  className={styles.iconControls}
+                  onClick={e => {
+                    e.preventDefault();
+                    showPopup(
+                      <ConfirmPopup
+                        ok={() => {
+                          deleteFriend({
+                            variables: { id },
+                            refetchQueries: ["friends"]
+                          });
+                          showPopup(null);
+                        }}
+                        cancel={() => showPopup(null)}
+                      >
+                        <div style={{ fontSize: "22px" }}>
+                          Are you sure to{" "}
+                          <span style={{ color: "red" }}>DELETE</span>{" "}
+                          <strong>{name}</strong>?
+                        </div>
+                      </ConfirmPopup>
+                    );
+                  }}
+                />
+              )}
+            </PopupContext.Consumer>
           )}
         </Mutation>
       </div>
