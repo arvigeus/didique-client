@@ -17,7 +17,7 @@ type HandwritingStateType = {
   clientHeight: number
 };
 
-class Handwriting extends React.Component<
+class Handwriting extends React.PureComponent<
   HandwritingPropsType,
   HandwritingStateType
 > {

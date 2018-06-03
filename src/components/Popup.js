@@ -9,7 +9,7 @@ type PopupPropsType = {
   children: any
 };
 
-class Popup extends React.Component<PopupPropsType> {
+class Popup extends React.PureComponent<PopupPropsType> {
   escFunction = (event: mixed) => {
     if (event instanceof KeyboardEvent && event.keyCode === 27) {
       this.props.cancel();

@@ -11,7 +11,7 @@ type SearchPropsType = {
   onChange: (SyntheticInputEvent<HTMLInputElement>) => void
 };
 
-class Search extends React.Component<SearchPropsType> {
+class Search extends React.PureComponent<SearchPropsType> {
   delayId = null;
 
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {

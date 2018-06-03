@@ -5,7 +5,7 @@ import Header from "./Header";
 import { PopupContext } from "components/Popup";
 import cx from "classnames";
 
-class App extends React.Component {
+class App extends React.PureComponent {
   state = {
     popup: null
   };
