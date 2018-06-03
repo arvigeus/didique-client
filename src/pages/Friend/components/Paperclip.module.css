@@ -1,0 +1,44 @@
+.paperclip-top,
+.paperclip-bottom::before,
+.paperclip-bottom::after {
+  border-color: #ccc;
+  border-style: groove;
+}
+
+.paperclip-top {
+  width: 20px;
+  height: 15px;
+  margin: -45px 0 25px 95px;
+  border-radius: 20px 20px 0 0;
+  border-width: 3px 3px 0;
+  transform: rotate(-20deg);
+}
+
+.paperclip-bottom {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 0;
+  transform: rotate(-20deg);
+}
+
+.paperclip-bottom::before,
+.paperclip-bottom::after {
+  position: absolute;
+  z-index: 1;
+  left: 103px;
+  height: 70px;
+  content: "";
+}
+
+.paperclip-bottom::before {
+  width: 20px;
+  border-width: 0 3px 0 0;
+}
+
+.paperclip-bottom::after {
+  top: 14px;
+  width: 17px;
+  border-radius: 0 0 20px 20px;
+  border-width: 0 3px 3px;
+}
