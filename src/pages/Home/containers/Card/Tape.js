@@ -68,11 +68,11 @@ const Tape = ({
                       }}
                       cancel={() => showPopup(null)}
                     >
-                      <div style={{ fontSize: "22px" }}>
+                      <>
                         Are you sure you want to{" "}
                         <span style={{ color: "red" }}>REMOVE</span>{" "}
                         <strong>{name}</strong>?
-                      </div>
+                      </>
                     </ConfirmPopup>
                   );
                 }}

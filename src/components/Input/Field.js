@@ -1,22 +1,7 @@
 // @flow
 import cx from "classnames";
 import React, { PureComponent } from "react";
-
-type HintPropsType = {
-  hasValue: boolean,
-  required: ?boolean,
-  defaultHint: ?string,
-  hint: ?string
-};
-
-const Hint = ({ hasValue, required, defaultHint, hint }: HintPropsType) =>
-  required || ((hasValue && hint) || (!hasValue && defaultHint)) ? (
-    <div className={!hint ? "hint" : required ? "error" : "warning"}>
-      {required && !hint
-        ? "Required"
-        : `${required ? "[Required] " : ""}${hint || defaultHint || "Invalid"}`}
-    </div>
-  ) : null;
+import Hint from "./Hint";
 
 type FieldPropsType = {
   type:
@@ -36,6 +21,7 @@ type FieldPropsType = {
   required?: boolean,
   pattern?: string,
   hint?: string,
+  error?: string,
   onChange?: (SyntheticInputEvent<HTMLInputElement>) => void,
   onBlur?: (SyntheticInputEvent<HTMLInputElement>) => void,
   onFocus?: (SyntheticInputEvent<HTMLInputElement>) => void
@@ -57,7 +43,7 @@ class Field extends PureComponent<FieldPropsType, FieldStateType> {
   state = {
     hasValue: !!this.props.value,
     hasFocus: false,
-    hint: null
+    hint: this.props.error
   };
 
   validate = (value: string): boolean =>

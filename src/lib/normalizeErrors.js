@@ -1,24 +1,16 @@
 const normalizeErrors = errors =>
-  errors.reduce((acc, cv) => {
-    if (cv.path in acc) {
-      acc[cv.path].push(cv.message);
-    } else {
-      acc[undefined] = [cv];
-    }
+  errors.reduce
+    ? errors.reduce((acc, cv) => {
+        if (cv.path in acc) {
+          if (!acc[cv.path]) acc[cv.path] = [];
+          acc[cv.path].push(cv.message);
+        } else {
+          if (!acc[undefined]) acc[undefined] = [];
+          acc[undefined].push(cv);
+        }
 
-    return acc;
-  }, {});
-
-const stringifyError = error =>
-  error.path ? `${error.path}: ${error.message}` : error;
-
-export const normalizeErrorsAsMarkup = errors => ({
-  __html:
-    errors.length === 1
-      ? stringifyError(errors[0])
-      : "<ul>" +
-        errors.map(err => `<li>${stringifyError(err)}</li>`).join() +
-        "</ul>"
-});
+        return acc;
+      }, {})
+    : { [undefined]: [errors.message || errors + ""] };
 
 export default normalizeErrors;

@@ -2,6 +2,8 @@
   --text-color: #495057;
   --font-handwriting: "Indie Flower", cursive;
   --font-interface: "Kurale", sans-serif;
+  --error-text-color: #c11;
+  --warning-text-color: #b91;
 }
 
 html,
