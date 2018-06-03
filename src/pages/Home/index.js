@@ -42,7 +42,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
 
   layout = [];
 
-  searches = new Set("");
+  searches = new Set([""]);
 
   searchFriends = (e: SyntheticInputEvent<HTMLInputElement>) => {
     this.prevQuery = this.state.query;
@@ -79,7 +79,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
       });
   };
 
-  updateCache = (cache: any, friendMods) => {
+  updateCache = (cache: any, friendMods: (Array<any>) => Array<any>) => {
     for (const query of this.searches) {
       const { friends } = cache.readQuery({
         query: friendsQuery,
