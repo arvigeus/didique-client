@@ -1,7 +1,17 @@
+.responsive-grid-layout {
+  position: relative;
+}
+
+.react-grid-item.react-draggable-dragging {
+  z-index: 3;
+  transition: none;
+  will-change: transform;
+}
+
 .react-grid-item.react-grid-placeholder {
-  z-index: -1;
-  background: #e4e4e4;
-  box-shadow: 0 1px 4px #e4e4e4;
+  z-index: 0;
+  background: #d6d6d6;
+  box-shadow: 0 1px 6px #d6d6d6;
 }
 
 .grid-item-move {

@@ -2,6 +2,10 @@
   user-select: none;
 }
 
+.home :global(.react-grid-item.react-grid-placeholder) {
+  height: 330px !important;
+}
+
 .controls {
   display: flex;
   flex-wrap: wrap;
