@@ -41,55 +41,48 @@ const Tape = ({
     <>
       {isDraggable ? (
         <div
-          className={cx([styles.tape, styles.tapeMove])}
+          className={cx([styles.tape, styles.tapeMove, "grid-item-move"])}
           style={{ transform: `rotate(${friend.tapeMove}deg)` }}
+          title="Move"
         >
-          <MoveIcon
-            size={30}
-            className={cx([styles.iconControls, "grid-item-move"])}
-          />
+          <MoveIcon size={30} className={styles.iconControls} />
         </div>
       ) : null}
       {/* TODO: Don't show Delete if user is me */}
-      <div
-        className={cx([styles.tape, styles.tapeDelete])}
-        style={{ transform: `rotate(${friend.tapeDelete}deg)` }}
-      >
-        <Mutation mutation={deleteFriend} update={onFriendDeleted}>
-          {deleteFriend => (
-            <PopupContext.Consumer>
-              {showPopup => (
-                <TrashIcon
-                  link="#"
-                  size={30}
-                  className={styles.iconControls}
-                  onClick={e => {
-                    e.preventDefault();
-                    showPopup(
-                      <ConfirmPopup
-                        ok={() => {
-                          deleteFriend({
-                            variables: { id },
-                            refetchQueries: ["friends"]
-                          });
-                          showPopup(null);
-                        }}
-                        cancel={() => showPopup(null)}
-                      >
-                        <div style={{ fontSize: "22px" }}>
-                          Are you sure want to{" "}
-                          <span style={{ color: "red" }}>DELETE</span>{" "}
-                          <strong>{name}</strong>?
-                        </div>
-                      </ConfirmPopup>
-                    );
-                  }}
-                />
-              )}
-            </PopupContext.Consumer>
-          )}
-        </Mutation>
-      </div>
+      <Mutation mutation={deleteFriend} update={onFriendDeleted}>
+        {deleteFriend => (
+          <PopupContext.Consumer>
+            {(showPopup: any => void) => (
+              <div
+                title="Remove"
+                className={cx([styles.tape, styles.tapeDelete])}
+                style={{ transform: `rotate(${friend.tapeDelete}deg)` }}
+                onClick={e => {
+                  showPopup(
+                    <ConfirmPopup
+                      ok={() => {
+                        deleteFriend({
+                          variables: { id }
+                        });
+                        showPopup(null);
+                      }}
+                      cancel={() => showPopup(null)}
+                    >
+                      <div style={{ fontSize: "22px" }}>
+                        Are you sure you want to{" "}
+                        <span style={{ color: "red" }}>REMOVE</span>{" "}
+                        <strong>{name}</strong>?
+                      </div>
+                    </ConfirmPopup>
+                  );
+                }}
+              >
+                <TrashIcon size={30} className={styles.iconControls} />
+              </div>
+            )}
+          </PopupContext.Consumer>
+        )}
+      </Mutation>
       <div
         className={cx([styles.tape, styles.tapeLinks])}
         style={{
@@ -99,6 +92,7 @@ const Tape = ({
       >
         {/* TODO: Don't show messages if user is me */}
         <MessagesIcon
+          title="Messages"
           size={36}
           link={`${link}/messages`}
           className={styles.iconLink}
@@ -106,6 +100,7 @@ const Tape = ({
           badgeClass={styles.badge}
         />
         <CalendarIcon
+          title="Calendar"
           size={36}
           link={`${link}/calendar`}
           className={styles.iconLink}
@@ -113,6 +108,7 @@ const Tape = ({
           badgeClass={styles.badge}
         />
         <NotesIcon
+          title="Notes"
           size={36}
           link={`${link}/notes`}
           className={styles.iconLink}
@@ -120,6 +116,7 @@ const Tape = ({
           badgeClass={styles.badge}
         />
         <TodoIcon
+          title="Tasks"
           size={36}
           link={`${link}/todo`}
           className={styles.iconLink}

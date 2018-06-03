@@ -14,11 +14,19 @@ import moveFriendsMutation from "./graphql/moveFriends.graphql";
 import { PopupContext } from "components/Popup";
 
 type LayoutType = {
-  i: string,
+  id: string,
   x: number,
   y: number,
   width: number,
   height: number
+};
+
+type GridLayoutType = {
+  i: string,
+  x: number,
+  y: number,
+  w: number,
+  h: number
 };
 
 type HomeStateType = {
@@ -30,9 +38,15 @@ class Home extends React.PureComponent<null, HomeStateType> {
     query: ""
   };
 
+  prevQuery = "Search"; // Prevents initial layout change
+
   layout = [];
 
+  searches = new Set("");
+
   searchFriends = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    this.prevQuery = this.state.query;
+    this.searches.add(e.target.value);
     this.setState({ query: e.target.value });
   };
 
@@ -41,6 +55,11 @@ class Home extends React.PureComponent<null, HomeStateType> {
     newLayout: Array<LayoutType>
   ) => {
     if (this.state.query) return;
+    // Prevent moving of items after clearing out search
+    if (this.prevQuery) {
+      this.prevQuery = "";
+      return;
+    }
     const changes = newLayout.filter(changed => {
       const old = this.layout.find(elem => elem.i === changed.i);
       return old && (changed.x !== old.x || changed.y !== old.y);
@@ -49,25 +68,29 @@ class Home extends React.PureComponent<null, HomeStateType> {
     if (changes.length)
       move({
         variables: {
-          changes: changes.map(({ i, x, y, w, h }) => ({
+          changes: changes.map(({ i, x, y, w, h }: GridLayoutType) => ({
             id: i,
             x,
             y,
             width: w,
             height: h
           }))
-        },
-        refetchQueries: ["friends"]
+        }
       });
   };
 
-  getFriendsFromCache = (cache: any) => {
-    const { query } = this.state;
-    const { friends } = cache.readQuery({
-      query: friendsQuery,
-      variables: { query }
-    });
-    return friends;
+  updateCache = (cache: any, friendMods) => {
+    for (const query of this.searches) {
+      const { friends } = cache.readQuery({
+        query: friendsQuery,
+        variables: { query }
+      });
+      cache.writeQuery({
+        query: friendsQuery,
+        variables: { query },
+        data: { friends: friendMods(friends) }
+      });
+    }
   };
 
   onFriendsMoved = (
@@ -76,22 +99,18 @@ class Home extends React.PureComponent<null, HomeStateType> {
       data: {
         moveFriends: { ok, items, errors }
       }
-    }
+    }: { data: { moveFriends: { ok: boolean, items: Array<LayoutType> } } }
   ) => {
     if (!ok) return;
-    const { query } = this.state;
-    const friends = this.getFriendsFromCache(cache);
-    for (const friend of friends) {
-      const changed = items.find(({ id }) => id === friend.id);
-      if (changed) {
-        friend.stats.position.x = changed.x;
-        friend.stats.position.y = changed.y;
+    this.updateCache(cache, friends => {
+      for (const friend of friends) {
+        const changed = items.find(({ id }) => id === friend.id);
+        if (changed) {
+          friend.stats.position.x = changed.x;
+          friend.stats.position.y = changed.y;
+        }
       }
-    }
-    cache.writeQuery({
-      query: friendsQuery,
-      variables: { query },
-      data: { friends }
+      return friends;
     });
   };
 
@@ -104,14 +123,8 @@ class Home extends React.PureComponent<null, HomeStateType> {
     }
   ) => {
     if (!ok) return;
-    const { query } = this.state;
-    const friends = this.getFriendsFromCache(cache);
     const { id } = friend;
-    cache.writeQuery({
-      query: friendsQuery,
-      variables: { query },
-      data: { friends: friends.filter(e => e.id !== id) }
-    });
+    this.updateCache(cache, friends => friends.filter(e => e.id !== id));
   };
 
   render() {
@@ -126,7 +139,6 @@ class Home extends React.PureComponent<null, HomeStateType> {
             label="Search friends"
             delay={850}
             onChange={this.searchFriends}
-            autoFocus
           />
           <PopupContext.Consumer>
             {showPopup => (
