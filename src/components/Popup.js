@@ -9,14 +9,33 @@ type PopupPropsType = {
   children: any
 };
 
-const Popup = ({ cancel, children, ...props }: PopupPropsType) => (
-  <div className={styles.container}>
-    <div className={styles.overlay} onClick={cancel} />
-    <Note className={styles.popup} cancel={cancel} {...props}>
-      {children}
-    </Note>
-  </div>
-);
+class Popup extends React.Component<PopupPropsType> {
+  escFunction = (event: mixed) => {
+    if (event instanceof KeyboardEvent && event.keyCode === 27) {
+      this.props.cancel();
+    }
+  };
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.escFunction, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
+
+  render() {
+    const { cancel, children, ...props } = this.props;
+    return (
+      <div className={styles.container}>
+        <div className={styles.overlay} onClick={cancel} />
+        <Note className={styles.popup} cancel={cancel} {...props}>
+          {children}
+        </Note>
+      </div>
+    );
+  }
+}
 
 export const PopupContext = React.createContext(() => {});
 

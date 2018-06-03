@@ -6,6 +6,7 @@
   bottom: 0;
   left: 0;
   display: flex;
+  animation: blur 0.4s forwards;
   background: rgba(224, 226, 233, 0.5);
 }
 
@@ -26,8 +27,33 @@
 .popup {
   max-width: 80%;
   margin: auto;
+  animation: show 0.4s forwards;
 }
 
 .confirm {
   margin-top: 20px;
+}
+
+@keyframes blur {
+  0% {
+    background: rgba(224, 226, 233, 0);
+  }
+
+  100% {
+    background: rgba(224, 226, 233, 0.5);
+  }
+}
+
+@keyframes show {
+  0% {
+    filter: blur(5px);
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  100% {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale(1);
+  }
 }
