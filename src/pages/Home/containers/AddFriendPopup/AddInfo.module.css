@@ -1,10 +1,11 @@
 .wrapper {
   display: grid;
-  grid-gap: 0 10px;
+  grid-gap: 0 15px;
   grid-template:
     "picture name" auto
     "picture email" auto
-    "next next" auto
+    "error error" auto
+    "submit submit" auto
     / 140px auto;
 }
 
@@ -21,7 +22,13 @@
   grid-area: email;
 }
 
-.next {
-  width: 100%;
-  grid-area: next;
+.error {
+  margin-bottom: 0;
+  color: var(--error-text-color);
+  grid-area: error;
+}
+
+.submit {
+  margin-top: 30px !important;
+  grid-area: submit;
 }

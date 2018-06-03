@@ -1,0 +1,6 @@
+mutation connectFriend($email: String!) {
+  connectFriend(email: $email) {
+    ok
+    errors
+  }
+}

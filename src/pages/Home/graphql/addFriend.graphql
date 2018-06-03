@@ -1,0 +1,24 @@
+mutation addFriend($name: String!, $email: String) {
+  addFriend(name: $name, email: $email) {
+    ok
+    friend {
+      id
+      name
+      picture
+      nickname
+      email
+      stats {
+        isOnline
+        messagesCount
+        eventsCount
+        notesCount
+        todosCount
+        position {
+          x
+          y
+        }
+      }
+    }
+    errors
+  }
+}
