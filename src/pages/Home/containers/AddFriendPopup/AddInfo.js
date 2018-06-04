@@ -2,12 +2,12 @@ import Button from "components/Input/Button";
 import Field from "components/Input/Field";
 import Picture from "components/Picture";
 import Popup from "components/Popup";
+import normalizeErrors from "lib/normalizeErrors";
 import React from "react";
 import { Mutation } from "react-apollo";
 import addFriendQuery from "../../graphql/addFriend.graphql";
 import friendsQuery from "../../graphql/friends.graphql";
 import styles from "./AddInfo.module.css";
-import normalizeErrors from "lib/normalizeErrors";
 
 class AddInfo extends React.PureComponent {
   state = {
@@ -36,7 +36,6 @@ class AddInfo extends React.PureComponent {
             query: friendsQuery,
             variables: { query: "" }
           });
-          console.log(friend);
           friends.push(friend);
           cache.writeQuery({
             query: friendsQuery,
@@ -48,10 +47,7 @@ class AddInfo extends React.PureComponent {
           this.setState({ errors: normalizeErrors(err) });
         }}
         onCompleted={({ addFriend: { ok, friend } }) => {
-          console.log(ok);
-          console.log(friend);
           if (ok) {
-            console.log(friend.email);
             if (friend.email) onSubmit(friend);
             else cancel(); // if no email is provided, close the popup
           }

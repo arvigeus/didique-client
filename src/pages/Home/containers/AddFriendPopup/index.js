@@ -14,7 +14,6 @@ class AddFriendPopup extends React.PureComponent {
     return !friend ? (
       <AddInfo
         onSubmit={friend => {
-          console.log(friend);
           this.setState({ friend });
         }}
         cancel={cancel}

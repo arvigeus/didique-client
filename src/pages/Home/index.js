@@ -2,6 +2,7 @@
 import Handwriting from "components/Handwriting";
 import Button from "components/Input/Button";
 import Search from "components/Input/Search";
+import { PopupContext } from "components/Popup";
 import ResponsiveGridLayout from "components/ResponsiveGridLayout";
 import AddFriendIcon from "components/icons/AddFriend";
 import React from "react";
@@ -11,7 +12,6 @@ import AddFriendPopup from "./containers/AddFriendPopup";
 import Card from "./containers/Card";
 import friendsQuery from "./graphql/friends.graphql";
 import moveFriendsMutation from "./graphql/moveFriends.graphql";
-import { PopupContext } from "components/Popup";
 
 type LayoutType = {
   id: string,
@@ -40,8 +40,6 @@ class Home extends React.PureComponent<null, HomeStateType> {
 
   prevQuery = "Search"; // Prevents initial layout change
 
-  layout = [];
-
   searches = new Set([""]);
 
   searchFriends = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -49,6 +47,8 @@ class Home extends React.PureComponent<null, HomeStateType> {
     this.searches.add(e.target.value);
     this.setState({ query: e.target.value });
   };
+
+  layout = [];
 
   onLayoutChange = (
     move: ({ variables: { changes: Array<LayoutType> } }) => void,
@@ -154,6 +154,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
             )}
           </PopupContext.Consumer>
         </div>
+
         <Query query={friendsQuery} variables={{ query }}>
           {({ loading, error, data }) => {
             if (loading)
