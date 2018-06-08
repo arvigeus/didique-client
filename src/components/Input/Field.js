@@ -17,6 +17,7 @@ type FieldPropsType = {
   className?: string,
   label: string,
   value?: string,
+  defaultValue: string,
   title?: string,
   required?: boolean,
   pattern?: string,
@@ -41,7 +42,7 @@ class Field extends PureComponent<FieldPropsType, FieldStateType> {
   };
 
   state = {
-    hasValue: !!this.props.value,
+    hasValue: !!this.props.value || !!this.props.defaultValue,
     hasFocus: false,
     hint: this.props.error
   };
