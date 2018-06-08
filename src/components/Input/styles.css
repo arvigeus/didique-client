@@ -361,24 +361,24 @@ a.button.active {
 
 input[type="submit"],
 a.button.submit {
-  border-color: var(--submit-color) !important;
-  color: var(--submit-color) !important;
+  border-color: var(--color-green) !important;
+  color: var(--color-green) !important;
 }
 
 input[type="submit"]:hover,
 a.button.submit:hover {
-  background-color: var(--submit-color) !important;
+  background-color: var(--color-green) !important;
   color: #efeffe !important;
 }
 
 input[type="submit"]:focus,
 a.button.submit:focus {
-  background-color: #afa !important;
+  background-color: #b3e96f !important;
 }
 
 input[type="submit"].active,
 a.button.submit.active {
-  background-color: var(--submit-color) !important;
-  border-color: var(--submit-color) !important;
-  color: #afa !important;
+  background-color: var(--color-green) !important;
+  border-color: var(--color-green) !important;
+  color: #b3e96f !important;
 }
