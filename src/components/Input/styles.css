@@ -172,7 +172,7 @@
   cursor: pointer;
   font-family: var(--font-handwriting);
   outline: 0;
-  transition: all 0.2s ease;
+  transition: left 0.2s ease;
   user-select: none;
   vertical-align: text-bottom;
 }
@@ -184,7 +184,7 @@
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: all 0.2s ease;
+  transition: left 0.2s ease;
 }
 
 .toggle label::after {
@@ -293,11 +293,11 @@
 }
 
 .field .error {
-  color: var(--error-text-color);
+  color: var(--color-red);
 }
 
 .field .warning {
-  color: var(--warning-text-color);
+  color: var(--color-orange);
 }
 
 input[type="submit"],
@@ -320,6 +320,13 @@ a.button {
   text-align: center;
   text-decoration: none;
   transition: background-color ease 0.3s;
+}
+
+input[type="submit"] path,
+input[type="button"] path,
+button path,
+a.button path {
+  transition: fill ease 0.3s;
 }
 
 input[type="submit"]:focus,

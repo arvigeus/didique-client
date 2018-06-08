@@ -2,8 +2,11 @@
   --text-color: #495057;
   --font-handwriting: "Indie Flower", cursive;
   --font-interface: "Kurale", sans-serif;
-  --error-text-color: #c11;
-  --warning-text-color: #b91;
+  --color-red: #c11;
+  --color-blue: #4898ed;
+  --color-pink: #ce839a;
+  --color-orange: #e98523;
+  --color-green: #80b63c;
 }
 
 html,
