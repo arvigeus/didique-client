@@ -46,7 +46,7 @@ export default () => (
     />
     <Route path="/contact-us" exact render={ContactUs} />
     <PrivateRoute
-      path="/friend/:id"
+      path="/friend/:nickname"
       component={Friend}
       fallback={RedirectHome}
     />

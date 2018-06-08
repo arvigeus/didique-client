@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./App.module.css";
 import Header from "./Header";
 import { PopupContext } from "components/Popup";
+import { withRouter } from "react-router-dom";
 import cx from "classnames";
 
 class App extends React.PureComponent {
@@ -29,4 +30,4 @@ class App extends React.PureComponent {
   }
 }
 
-export default App;
+export default withRouter(App);
