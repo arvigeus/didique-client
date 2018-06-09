@@ -2,6 +2,7 @@ import cx from "classnames";
 import Picture from "components/Picture";
 import friendStore from "lib/friendStore";
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./Card.module.css";
 import Tape from "./Tape";
 
@@ -18,7 +19,7 @@ type CardType = {
     totalTodos: number
   },
   onFriendDeleted: any,
-  isDraggable: boolean
+  query: ?string
 };
 
 const Card = ({
@@ -29,7 +30,7 @@ const Card = ({
   className,
   stats: { isOnline, messagesCount, eventsCount, notesCount, todosCount },
   onFriendDeleted,
-  isDraggable,
+  query,
   ...props
 }: CardType) => (
   <div className={cx([className, styles.card])} {...props}>
@@ -37,22 +38,23 @@ const Card = ({
       id={id}
       name={name}
       link={link}
-      isDraggable={isDraggable}
+      query={query}
       messagesCount={messagesCount}
       eventsCount={eventsCount}
       notesCount={notesCount}
       todosCount={todosCount}
       onFriendDeleted={onFriendDeleted}
     />
-    <Picture
-      link={link}
-      src={picture}
-      name={name}
-      effects={{
-        grayscale: isOnline,
-        rotate: friendStore(id).picture
-      }}
-    />
+    <Link to={{ pathname: link, state: { query } }}>
+      <Picture
+        src={picture}
+        name={name}
+        effects={{
+          grayscale: isOnline,
+          rotate: friendStore(id).picture
+        }}
+      />
+    </Link>
   </div>
 );
 

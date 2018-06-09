@@ -8,6 +8,7 @@ import TodoIcon from "components/icons/Todo";
 import TrashIcon from "components/icons/Trash";
 import friendStore from "lib/friendStore";
 import React from "react";
+import { Link } from "react-router-dom";
 import { Mutation } from "react-apollo";
 import deleteFriend from "../../graphql/deleteFriend.graphql";
 import styles from "./Tape.module.css";
@@ -17,7 +18,7 @@ type TapePropsType = {
   id: string,
   name: string,
   link: string,
-  isDraggable: boolean,
+  query: ?string,
   messagesCount?: number,
   eventsCount?: number,
   notesCount?: number,
@@ -29,7 +30,7 @@ const Tape = ({
   id,
   name,
   link,
-  isDraggable,
+  query,
   messagesCount,
   eventsCount,
   notesCount,
@@ -39,7 +40,7 @@ const Tape = ({
   const friend = friendStore(id);
   return (
     <>
-      {isDraggable ? (
+      {!!query ? (
         <div
           className={cx([styles.tape, styles.tapeMove, "grid-item-move"])}
           style={{ transform: `rotate(${friend.tapeMove}deg)` }}
@@ -91,38 +92,54 @@ const Tape = ({
         }}
       >
         {/* TODO: Don't show messages if user is me */}
-        <MessagesIcon
-          title="Messages"
-          size={36}
-          link={`${link}/messages`}
+        <Link
+          to={{ pathname: `${link}/messages`, state: { query } }}
           className={styles.iconLink}
-          badge={messagesCount}
-          badgeClass={styles.badge}
-        />
-        <CalendarIcon
-          title="Calendar"
-          size={36}
-          link={`${link}/calendar`}
+          draggable={false}
+        >
+          <MessagesIcon
+            title="Messages"
+            size={36}
+            badge={messagesCount}
+            badgeClass={styles.badge}
+          />
+        </Link>
+        <Link
+          to={{ pathname: `${link}/calendar`, state: { query } }}
           className={styles.iconLink}
-          badge={eventsCount}
-          badgeClass={styles.badge}
-        />
-        <NotesIcon
-          title="Notes"
-          size={36}
-          link={`${link}/notes`}
+          draggable={false}
+        >
+          <CalendarIcon
+            title="Calendar"
+            size={36}
+            badge={eventsCount}
+            badgeClass={styles.badge}
+          />
+        </Link>
+        <Link
+          to={{ pathname: `${link}/notes`, state: { query } }}
           className={styles.iconLink}
-          badge={notesCount}
-          badgeClass={styles.badge}
-        />
-        <TodoIcon
-          title="Tasks"
-          size={36}
-          link={`${link}/todo`}
+          draggable={false}
+        >
+          <NotesIcon
+            title="Notes"
+            size={36}
+            badge={notesCount}
+            badgeClass={styles.badge}
+          />
+        </Link>
+        <Link
+          to={{ pathname: `${link}/tasks`, state: { query } }}
           className={styles.iconLink}
-          badge={todosCount}
-          badgeClass={styles.badge}
-        />
+          draggable={false}
+        >
+          <TodoIcon
+            title="Tasks"
+            size={36}
+            badge={todosCount}
+            badgeClass={styles.badge}
+          />
+        </Link>
       </div>
     </>
   );

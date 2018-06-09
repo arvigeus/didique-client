@@ -129,7 +129,6 @@ class Home extends React.PureComponent<null, HomeStateType> {
 
   render() {
     const { query } = this.state;
-    const isDraggable = !query;
     return (
       <>
         <div className={styles.controls}>
@@ -137,6 +136,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
             id="search-friends"
             className={styles.search}
             label="Search friends"
+            hint="Prefix words with # to search for specific tags"
             delay={850}
             onChange={this.searchFriends}
           />
@@ -160,7 +160,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
             if (loading)
               return (
                 <Handwriting fontSize="50px">{`${
-                  isDraggable ? "Loading" : "Searching"
+                  !query ? "Loading" : "Searching"
                 } friends`}</Handwriting>
               );
             if (error) return <div>Error :(</div>;
@@ -168,7 +168,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
 
             if (!friends.length) return "Nothing, hmmm...";
 
-            if (isDraggable) {
+            if (!query) {
               this.layout = friends.map(
                 ({
                   id: i,
@@ -191,7 +191,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
                       draggableHandle=".grid-item-move"
                       rowHeight={380}
                       margin={[40, 5]}
-                      isDraggable={isDraggable}
+                      isDraggable={!query}
                       isResizable={false}
                       onLayoutChange={this.onLayoutChange.bind(
                         this,
@@ -211,7 +211,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
                           <Card
                             id={id}
                             link={`/friend/${nickname}`}
-                            isDraggable={isDraggable}
+                            query={query}
                             stats={stats}
                             onFriendDeleted={this.onFriendDeleted}
                             {...friend}

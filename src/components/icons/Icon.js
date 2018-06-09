@@ -6,7 +6,6 @@ import styles from "./icon.module.css";
 
 type IconPropType = {
   className?: string,
-  link?: ?string,
   badge?: number,
   badgeClass?: string,
   disabled?: boolean,
@@ -15,7 +14,6 @@ type IconPropType = {
 
 const Icon = ({
   className,
-  link,
   children,
   badge,
   badgeClass,
@@ -33,12 +31,7 @@ const Icon = ({
     { [styles["disabled-icon"]]: disabled },
     className
   ]);
-  return link ? (
-    <Link to={link} className={iconClass} {...props} draggable={false}>
-      {children}
-      {badgeIcon}
-    </Link>
-  ) : (
+  return (
     <div className={iconClass} {...props}>
       {children}
       {badgeIcon}

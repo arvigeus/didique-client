@@ -38,10 +38,9 @@
 }
 
 .badge {
-  text-shadow: 1px 1px 6px rgb(255, 228, 196), -1px -1px 6px rgb(255, 228, 196),
-    1px -1px 6px rgb(255, 228, 196), -1px 1px 6px rgb(255, 228, 196),
-    1px 1px 6px rgb(255, 228, 196), -1px -1px 6px rgb(255, 228, 196),
-    1px -1px 6px rgb(255, 228, 196), -1px 1px 6px rgb(255, 228, 196),
-    1px 1px 6px rgb(255, 228, 196), -1px -1px 6px rgb(255, 228, 196),
-    1px -1px 6px rgb(255, 228, 196), -1px 1px 6px rgb(255, 228, 196);
+  --badge-outline: rgb(255, 228, 196);
+
+  text-shadow: -3px -3px 1px var(--badge-outline),
+    3px -3px 1px var(--badge-outline), -3px 3px 1px var(--badge-outline),
+    3px 3px 1px var(--badge-outline);
 }
