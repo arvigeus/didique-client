@@ -38,9 +38,10 @@ const Tape = ({
   onFriendDeleted
 }: TapePropsType) => {
   const friend = friendStore(id);
+  const badgeClass = cx(styles.badge, { [styles.badgeSearching]: !!query });
   return (
     <>
-      {!!query ? (
+      {!query ? (
         <div
           className={cx([styles.tape, styles.tapeMove, "grid-item-move"])}
           style={{ transform: `rotate(${friend.tapeMove}deg)` }}
@@ -101,7 +102,7 @@ const Tape = ({
             title="Messages"
             size={36}
             badge={messagesCount}
-            badgeClass={styles.badge}
+            badgeClass={badgeClass}
           />
         </Link>
         <Link
@@ -113,7 +114,7 @@ const Tape = ({
             title="Calendar"
             size={36}
             badge={eventsCount}
-            badgeClass={styles.badge}
+            badgeClass={badgeClass}
           />
         </Link>
         <Link
@@ -125,7 +126,7 @@ const Tape = ({
             title="Notes"
             size={36}
             badge={notesCount}
-            badgeClass={styles.badge}
+            badgeClass={badgeClass}
           />
         </Link>
         <Link
@@ -137,7 +138,7 @@ const Tape = ({
             title="Tasks"
             size={36}
             badge={todosCount}
-            badgeClass={styles.badge}
+            badgeClass={badgeClass}
           />
         </Link>
       </div>

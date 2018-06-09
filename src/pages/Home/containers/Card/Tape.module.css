@@ -44,3 +44,7 @@
     3px -3px 1px var(--badge-outline), -3px 3px 1px var(--badge-outline),
     3px 3px 1px var(--badge-outline);
 }
+
+.badgeSearching {
+  color: var(--color-blue);
+}

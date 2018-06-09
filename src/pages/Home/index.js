@@ -30,20 +30,23 @@ type GridLayoutType = {
 };
 
 type HomeStateType = {
-  query: string
+  query: string,
+  location?: ?{
+    state: any
+  }
 };
 
 class Home extends React.PureComponent<null, HomeStateType> {
   state = {
-    query: ""
+    query:
+      this.props.location && this.props.location.state
+        ? this.props.location.state.query
+        : ""
   };
 
-  prevQuery = "Search"; // Prevents initial layout change
-
-  searches = new Set([""]);
+  searches = new Set([this.state.query]);
 
   searchFriends = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    this.prevQuery = this.state.query;
     this.searches.add(e.target.value);
     this.setState({ query: e.target.value });
   };
@@ -54,12 +57,6 @@ class Home extends React.PureComponent<null, HomeStateType> {
     move: ({ variables: { changes: Array<LayoutType> } }) => void,
     newLayout: Array<LayoutType>
   ) => {
-    if (this.state.query) return;
-    // Prevent moving of items after clearing out search
-    if (this.prevQuery) {
-      this.prevQuery = "";
-      return;
-    }
     const changes = newLayout.filter(changed => {
       const old = this.layout.find(elem => elem.i === changed.i);
       return old && (changed.x !== old.x || changed.y !== old.y);
@@ -137,6 +134,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
             className={styles.search}
             label="Search friends"
             hint="Prefix words with # to search for specific tags"
+            defaultValue={query}
             delay={850}
             onChange={this.searchFriends}
           />
@@ -168,16 +166,42 @@ class Home extends React.PureComponent<null, HomeStateType> {
 
             if (!friends.length) return "Nothing, hmmm...";
 
-            if (!query) {
-              this.layout = friends.map(
-                ({
-                  id: i,
-                  stats: {
-                    position: { x, y }
-                  }
-                }) => ({ i, x, y, w: 1, h: 1 })
+            const friendCards = [];
+            if (!query) this.layout = [];
+            for (const { id, nickname, stats, ...friend } of friends) {
+              friendCards.push(
+                <div
+                  key={id}
+                  data-grid={{
+                    x: stats.position.x,
+                    y: stats.position.y,
+                    w: 1,
+                    h: 1
+                  }}
+                >
+                  <Card
+                    id={id}
+                    link={`/friend/${nickname}`}
+                    query={query}
+                    stats={stats}
+                    onFriendDeleted={this.onFriendDeleted}
+                    {...friend}
+                  />
+                </div>
               );
+
+              if (!query)
+                this.layout.push({
+                  i: id,
+                  x: stats.position.x,
+                  y: stats.position.y,
+                  w: 1,
+                  h: 1
+                });
             }
+
+            if (query)
+              return <div className={styles.searchGrid}>{friendCards}</div>;
 
             return (
               <div className={styles.home}>
@@ -198,26 +222,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
                         moveFriends
                       )}
                     >
-                      {friends.map(({ id, nickname, stats, ...friend }) => (
-                        <div
-                          key={id}
-                          data-grid={{
-                            x: stats.position.x,
-                            y: stats.position.y,
-                            w: 1,
-                            h: 1
-                          }}
-                        >
-                          <Card
-                            id={id}
-                            link={`/friend/${nickname}`}
-                            query={query}
-                            stats={stats}
-                            onFriendDeleted={this.onFriendDeleted}
-                            {...friend}
-                          />
-                        </div>
-                      ))}
+                      {friendCards}
                     </ResponsiveGridLayout>
                   )}
                 </Mutation>
