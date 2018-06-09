@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.responsive-grid-layout-simple {
+  display: grid;
+}
+
 .react-grid-item.react-draggable-dragging {
   z-index: 3;
   transition: none;

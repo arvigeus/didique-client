@@ -27,10 +27,3 @@
   line-height: 34px;
   vertical-align: super;
 }
-
-.searchGrid {
-  display: grid;
-  margin: 30px 40px 0;
-  grid-gap: 70px 50px;
-  grid-template-columns: repeat(auto-fill, 220px);
-}

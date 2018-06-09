@@ -200,9 +200,6 @@ class Home extends React.PureComponent<null, HomeStateType> {
                 });
             }
 
-            if (query)
-              return <div className={styles.searchGrid}>{friendCards}</div>;
-
             return (
               <div className={styles.home}>
                 <Mutation
@@ -214,8 +211,9 @@ class Home extends React.PureComponent<null, HomeStateType> {
                       cols={{ lg: 4, md: 4, sm: 3, xs: 2, xxs: 1 }}
                       draggableHandle=".grid-item-move"
                       rowHeight={380}
+                      columnWidth={275}
+                      simple={!!query}
                       margin={[40, 5]}
-                      isDraggable={!query}
                       isResizable={false}
                       onLayoutChange={this.onLayoutChange.bind(
                         this,
