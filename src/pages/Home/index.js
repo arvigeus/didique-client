@@ -4,6 +4,7 @@ import Button from "components/Input/Button";
 import Search from "components/Input/Search";
 import { PopupContext } from "components/Popup";
 import ResponsiveGridLayout from "components/ResponsiveGridLayout";
+import type { LayoutType } from "components/ResponsiveGridLayout";
 import AddFriendIcon from "components/icons/AddFriend";
 import React from "react";
 import { Mutation, Query } from "react-apollo";
@@ -12,22 +13,6 @@ import AddFriendPopup from "./containers/AddFriendPopup";
 import Card from "./containers/Card";
 import friendsQuery from "./graphql/friends.graphql";
 import moveFriendsMutation from "./graphql/moveFriends.graphql";
-
-type LayoutType = {
-  id: string,
-  x: number,
-  y: number,
-  width: number,
-  height: number
-};
-
-type GridLayoutType = {
-  i: string,
-  x: number,
-  y: number,
-  w: number,
-  h: number
-};
 
 type HomeStateType = {
   query: string,
@@ -51,29 +36,17 @@ class Home extends React.PureComponent<null, HomeStateType> {
     this.setState({ query: e.target.value });
   };
 
-  layout = [];
-
   onLayoutChange = (
-    move: ({ variables: { changes: Array<LayoutType> } }) => void,
-    newLayout: Array<LayoutType>
+    move: ({
+      variables: { changes: Array<LayoutType> }
+    }) => void,
+    changes: Array<LayoutType>
   ) => {
-    const changes = newLayout.filter(changed => {
-      const old = this.layout.find(elem => elem.i === changed.i);
-      return old && (changed.x !== old.x || changed.y !== old.y);
+    move({
+      variables: {
+        changes
+      }
     });
-    this.layout = newLayout;
-    if (changes.length)
-      move({
-        variables: {
-          changes: changes.map(({ i, x, y, w, h }: GridLayoutType) => ({
-            id: i,
-            x,
-            y,
-            width: w,
-            height: h
-          }))
-        }
-      });
   };
 
   updateCache = (cache: any, friendMods: (Array<any>) => Array<any>) => {
@@ -166,40 +139,6 @@ class Home extends React.PureComponent<null, HomeStateType> {
 
             if (!friends.length) return "Nothing, hmmm...";
 
-            const friendCards = [];
-            if (!query) this.layout = [];
-            for (const { id, nickname, stats, ...friend } of friends) {
-              friendCards.push(
-                <div
-                  key={id}
-                  data-grid={{
-                    x: stats.position.x,
-                    y: stats.position.y,
-                    w: 1,
-                    h: 1
-                  }}
-                >
-                  <Card
-                    id={id}
-                    link={`/friend/${nickname}`}
-                    query={query}
-                    stats={stats}
-                    onFriendDeleted={this.onFriendDeleted}
-                    {...friend}
-                  />
-                </div>
-              );
-
-              if (!query)
-                this.layout.push({
-                  i: id,
-                  x: stats.position.x,
-                  y: stats.position.y,
-                  w: 1,
-                  h: 1
-                });
-            }
-
             return (
               <div className={styles.home}>
                 <Mutation
@@ -210,17 +149,35 @@ class Home extends React.PureComponent<null, HomeStateType> {
                     <ResponsiveGridLayout
                       cols={{ lg: 4, md: 4, sm: 3, xs: 2, xxs: 1 }}
                       draggableHandle=".grid-item-move"
+                      columnWidth={270}
                       rowHeight={380}
-                      columnWidth={275}
                       simple={!!query}
                       margin={[40, 5]}
                       isResizable={false}
-                      onLayoutChange={this.onLayoutChange.bind(
-                        this,
-                        moveFriends
-                      )}
+                      onLayoutChange={changes =>
+                        this.onLayoutChange(moveFriends, changes)
+                      }
                     >
-                      {friendCards}
+                      {friends.map(({ id, nickname, stats, ...friend }) => (
+                        <div
+                          key={id}
+                          data-grid={{
+                            x: stats.position.x,
+                            y: stats.position.y,
+                            w: 1,
+                            h: 1
+                          }}
+                        >
+                          <Card
+                            id={id}
+                            link={`/friend/${nickname}`}
+                            query={query}
+                            stats={stats}
+                            onFriendDeleted={this.onFriendDeleted}
+                            {...friend}
+                          />
+                        </div>
+                      ))}
                     </ResponsiveGridLayout>
                   )}
                 </Mutation>

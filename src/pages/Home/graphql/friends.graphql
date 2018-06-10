@@ -13,6 +13,8 @@ query friends($query: String) {
       position {
         x
         y
+        width
+        height
       }
     }
   }
