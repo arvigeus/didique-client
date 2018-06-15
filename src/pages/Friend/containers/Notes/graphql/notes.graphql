@@ -1,0 +1,16 @@
+query notes($nickname: String!, $query: String) {
+  notes(nickname: $nickname, query: $query) {
+    id
+    title
+    text
+    tags
+    position {
+      x
+      y
+      width
+      height
+    }
+    color
+    updatedAt
+  }
+}

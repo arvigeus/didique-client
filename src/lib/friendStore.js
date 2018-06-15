@@ -1,5 +1,5 @@
 // @flow
-import { randomInt, randomFloat } from "./random";
+import { randomFloat, randomInt } from "./random";
 
 const friendStore = (id: string) => {
   if (!global.window.friends[id])
@@ -10,7 +10,8 @@ const friendStore = (id: string) => {
       tapeLinks: {
         top: randomInt(60, 90),
         right: randomInt(-10, -15)
-      }
+      },
+      nameTag: randomFloat(-3, 3)
     };
   return global.window.friends[id];
 };

@@ -1,0 +1,13 @@
+mutation moveNotes($nickname: String!, $changes: [GridItemInput!]) {
+  moveNotes(nickname: $nickname, changes: $changes) {
+    ok
+    items {
+      id
+      x
+      y
+      width
+      height
+    }
+    errors
+  }
+}

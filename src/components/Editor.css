@@ -1,0 +1,5 @@
+.medium-editor-element {
+  font-family: var(--font-handwriting);
+  outline: none;
+  white-space: normal;
+}

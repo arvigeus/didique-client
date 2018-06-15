@@ -1,0 +1,14 @@
+query friend($nickname: String!) {
+  friend(nickname: $nickname) {
+    id
+    name
+    nickname
+    picture
+    stats {
+      messagesCount
+      eventsCount
+      notesCount
+      todosCount
+    }
+  }
+}

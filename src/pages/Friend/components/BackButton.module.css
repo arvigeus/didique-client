@@ -1,0 +1,28 @@
+.wrapper {
+  position: absolute;
+  top: 25px;
+  left: 33px;
+  display: flex;
+  flex-direction: column;
+  color: var(--input-color);
+  font-family: var(--font-handwriting);
+  font-size: 27px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.wrapper div {
+  margin-top: -15px;
+}
+
+.b {
+  margin: 0 0 4px -4px;
+}
+
+.icon {
+  margin: -20px 0 0 -5px;
+}
+
+.icon path {
+  fill: var(--input-color);
+}

@@ -1,0 +1,76 @@
+.wrapper {
+  display: grid;
+  grid-gap: 20px 30px;
+  grid-template:
+    "picture page" 260px
+    "search page" 100px
+    "links page" auto
+    / 300px auto;
+}
+
+.picture {
+  align-self: self-start;
+  grid-area: picture;
+}
+
+.photo {
+  width: 230px;
+  margin: -22px auto 0 auto;
+}
+
+.search {
+  grid-area: search;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-self: self-start;
+  grid-area: links;
+}
+
+.iconLink {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.page {
+  grid-area: page;
+}
+
+.link {
+  width: 100%;
+  line-height: 26px;
+  text-align: left !important;
+}
+
+.badge {
+  text-shadow: -3px -3px 1px var(--input-active-color),
+    3px -3px 1px var(--input-active-color),
+    -3px 3px 1px var(--input-active-color),
+    3px 3px 1px var(--input-active-color);
+  transition: text-shadow ease 0.3s, color ease 0.3s;
+}
+
+.badgeSearching {
+  color: var(--color-blue);
+}
+
+.link:global(.active) path,
+.link:hover path {
+  fill: var(--input-active-color) !important;
+}
+
+.link:global(.active) .badge,
+.link:hover .badge {
+  color: var(--input-active-color);
+  text-shadow: -3px -3px 1px var(--color-red), 3px -3px 1px var(--color-red),
+    -3px 3px 1px var(--color-red), 3px 3px 1px var(--color-red);
+}
+
+.link:global(.active) .badgeSearching,
+.link:hover .badgeSearching {
+  color: var(--input-active-color);
+  text-shadow: -3px -3px 1px var(--color-blue), 3px -3px 1px var(--color-blue),
+    -3px 3px 1px var(--color-blue), 3px 3px 1px var(--color-blue) !important;
+}
