@@ -1,18 +1,18 @@
 // @flow
 import Handwriting from "components/Handwriting";
+import AddFriendIcon from "components/icons/AddFriend";
 import Button from "components/Input/Button";
 import Search from "components/Input/Search";
 import { PopupContext } from "components/Popup";
 import ResponsiveGridLayout from "components/ResponsiveGridLayout";
-import type { LayoutType } from "components/ResponsiveGridLayout";
-import AddFriendIcon from "components/icons/AddFriend";
 import React from "react";
 import { Mutation, Query } from "react-apollo";
-import styles from "./Home.module.css";
 import AddFriendPopup from "./containers/AddFriendPopup";
 import Card from "./containers/Card";
 import friendsQuery from "./graphql/friends.graphql";
 import moveFriendsMutation from "./graphql/moveFriends.graphql";
+import styles from "./Home.module.css";
+import type { LayoutType } from "components/ResponsiveGridLayout";
 
 type HomeStateType = {
   query: string,
@@ -29,10 +29,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
         : ""
   };
 
-  searches = new Set([this.state.query]);
-
   searchFriends = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    this.searches.add(e.target.value);
     this.setState({ query: e.target.value });
   };
 
@@ -49,20 +46,6 @@ class Home extends React.PureComponent<null, HomeStateType> {
     });
   };
 
-  updateCache = (cache: any, friendMods: (Array<any>) => Array<any>) => {
-    for (const query of this.searches) {
-      const { friends } = cache.readQuery({
-        query: friendsQuery,
-        variables: { query }
-      });
-      cache.writeQuery({
-        query: friendsQuery,
-        variables: { query },
-        data: { friends: friendMods(friends) }
-      });
-    }
-  };
-
   onFriendsMoved = (
     cache: any,
     {
@@ -72,29 +55,23 @@ class Home extends React.PureComponent<null, HomeStateType> {
     }: { data: { moveFriends: { ok: boolean, items: Array<LayoutType> } } }
   ) => {
     if (!ok) return;
-    this.updateCache(cache, friends => {
-      for (const friend of friends) {
-        const changed = items.find(({ id }) => id === friend.id);
-        if (changed) {
-          friend.stats.position.x = changed.x;
-          friend.stats.position.y = changed.y;
-        }
-      }
-      return friends;
-    });
-  };
-
-  onFriendDeleted = (
-    cache,
-    {
-      data: {
-        deleteFriend: { ok, friend, errors }
+    const { query } = this.state;
+    const params = {
+      query: friendsQuery,
+      variables: { query }
+    };
+    const { friends } = cache.readQuery(params);
+    for (const friend of friends) {
+      const changed = items.find(({ id }) => id === friend.id);
+      if (changed) {
+        friend.stats.position.x = changed.x;
+        friend.stats.position.y = changed.y;
       }
     }
-  ) => {
-    if (!ok) return;
-    const { id } = friend;
-    this.updateCache(cache, friends => friends.filter(e => e.id !== id));
+    cache.writeQuery({
+      ...params,
+      data: { friends }
+    });
   };
 
   render() {
@@ -126,7 +103,11 @@ class Home extends React.PureComponent<null, HomeStateType> {
           </PopupContext.Consumer>
         </div>
 
-        <Query query={friendsQuery} variables={{ query }}>
+        <Query
+          query={friendsQuery}
+          variables={{ query }}
+          fetchPolicy="cache-and-network"
+        >
           {({ loading, error, data }) => {
             if (loading)
               return (
@@ -151,7 +132,7 @@ class Home extends React.PureComponent<null, HomeStateType> {
                       draggableHandle=".grid-item-move"
                       columnWidth={270}
                       rowHeight={380}
-                      simple={!!query}
+                      isDraggable={!query}
                       margin={[40, 5]}
                       isResizable={false}
                       onLayoutChange={changes =>
@@ -173,7 +154,6 @@ class Home extends React.PureComponent<null, HomeStateType> {
                             link={`/friend/${nickname}`}
                             query={query}
                             stats={stats}
-                            onFriendDeleted={this.onFriendDeleted}
                             {...friend}
                           />
                         </div>
