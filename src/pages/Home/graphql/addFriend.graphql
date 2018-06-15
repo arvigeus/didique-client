@@ -16,6 +16,8 @@ mutation addFriend($name: String!, $email: String) {
         position {
           x
           y
+          width
+          height
         }
       }
     }

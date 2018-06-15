@@ -18,7 +18,6 @@ type CardType = {
     totalNotes: number,
     totalTodos: number
   },
-  onFriendDeleted: any,
   query: ?string
 };
 
@@ -29,7 +28,6 @@ const Card = ({
   picture,
   className,
   stats: { isOnline, messagesCount, eventsCount, notesCount, todosCount },
-  onFriendDeleted,
   query,
   ...props
 }: CardType) => (
@@ -43,7 +41,6 @@ const Card = ({
       eventsCount={eventsCount}
       notesCount={notesCount}
       todosCount={todosCount}
-      onFriendDeleted={onFriendDeleted}
     />
     <Link to={{ pathname: link, state: { query } }}>
       <Picture

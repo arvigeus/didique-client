@@ -24,7 +24,7 @@ type ResponsiveGridLayoutPropsType = {
   layout?: Array<LayoutType>,
   onLayoutChange?: (Array<LayoutType>) => void,
   margin?: Array<number> | number,
-  simple?: boolean,
+  isDraggable?: boolean,
   columnWidth?: number,
   children: any
 };
@@ -70,12 +70,12 @@ class ResponsiveGridLayout extends React.PureComponent<
       layout,
       children,
       margin,
-      simple,
+      isDraggable,
       columnWidth,
       onLayoutChange,
       ...props
     } = this.props;
-    return !simple ? (
+    return isDraggable !== false ? (
       <ResponsiveGridLayoutProvider
         className="responsive-grid-layout"
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
